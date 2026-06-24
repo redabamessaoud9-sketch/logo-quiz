@@ -3,20 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logo Quiz Cyberpunk Edition</title>
-    <!-- Tailwind CSS pour un design responsive ultra rapide -->
+    <title>Logo Quiz Cyberpunk - 30 Stages Edition</title>
+    <!-- Tailwind CSS pour un rendu visuel premium et adaptatif -->
+    <script src="https://tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts pour la typographie futuriste -->
+    <!-- Google Fonts pour la typographie futuriste et rétro-gaming -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome pour les icônes de contrôle et de jeu -->
+    <!-- FontAwesome pour la bibliothèque d'icônes vectorielles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Tone.js pour la musique et les effets sonores synthétisés en temps réel -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 
     <style>
+        :root {
+            --primary-neon: #ff007f;
+            --secondary-neon: #00f5d4;
+            --bg-dark: #030008;
+        }
+
         body {
             font-family: 'Rajdhani', sans-serif;
-            background-color: #030008;
+            background-color: var(--bg-dark);
             background-image: 
                 radial-gradient(at 10% 20%, rgba(255, 0, 127, 0.15) 0px, transparent 40%),
                 radial-gradient(at 90% 80%, rgba(0, 245, 212, 0.15) 0px, transparent 40%);
@@ -45,7 +50,7 @@
             text-shadow: 0 0 8px rgba(255, 0, 127, 0.8);
         }
 
-        /* Animation en cas d'erreur de saisie */
+        /* Animations pour les interactions de jeu */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             20%, 60% { transform: translateX(-8px); }
@@ -55,7 +60,6 @@
             animation: shake 0.4s ease-in-out;
         }
 
-        /* Style de transition glassmorphic */
         .glass-panel {
             background: rgba(12, 8, 24, 0.75);
             backdrop-filter: blur(12px);
@@ -63,7 +67,6 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Barre d'écriture futuriste */
         .custom-input {
             background: rgba(5, 2, 12, 0.9);
             transition: all 0.3s ease;
@@ -73,54 +76,59 @@
             box-shadow: 0 0 20px rgba(0, 245, 212, 0.4);
         }
 
-        /* Personnalisation de la barre de défilement */
+        /* Personnalisation de l'affichage de défilement des niveaux */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
         ::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.3);
         }
         ::-webkit-scrollbar-thumb {
             background: #ff007f;
-            border-radius: 3px;
+            border-radius: 4px;
         }
     </style>
 </head>
 <body class="min-height-screen text-slate-100 flex items-center justify-center p-4 md:p-8 min-h-screen">
 
-    <!-- Bouton Audio Flottant -->
+    <!-- Lecteur audio standard utilisant ton fichier local musique.mp3 -->
+    <audio id="custom-bg-music" loop>
+        <source src="musique.mp3" type="audio/mpeg">
+        Votre navigateur ne supporte pas l'élément audio.
+    </audio>
+
     <button id="audio-toggle" onclick="handleMusicToggle()" class="fixed top-6 right-6 w-12 h-12 rounded-full glass-panel flex items-center justify-center text-xl text-[#00f5d4] transition duration-300 hover:scale-110 border border-[#00f5d4]/40 z-50">
         <i class="fa-solid fa-volume-xmark" id="audio-icon"></i>
     </button>
 
-    <!-- Boîte de dialogue de Réussite Finale -->
-    <div id="win-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
+    <!-- Boîte de dialogue de Réussite Finale (Tous les 30 niveaux complétés !) -->
+    <div id="win-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
         <div class="glass-panel neon-border-cyan rounded-3xl p-8 max-w-md w-full text-center">
             <div class="text-6xl text-[#00f5d4] mb-4 animate-bounce">
                 <i class="fa-solid fa-trophy"></i>
             </div>
-            <h2 class="font-bold text-3xl mb-3 text-slate-50 tracking-wider" style="font-family: 'Orbitron', sans-serif;">TOUS LES STAGES RÉSOLUS !</h2>
-            <p class="text-slate-300 mb-6">Félicitations ! Vous avez prouvé que votre connaissance des marques est inégalée.</p>
+            <h2 class="font-bold text-3xl mb-3 text-slate-50 tracking-wider" style="font-family: 'Orbitron', sans-serif;">GRAND CHAMPION !</h2>
+            <p class="text-slate-300 mb-6">Incroyable ! Vous avez surmonté les 30 stages de ce quiz avec brio. Votre savoir des marques est sans égal !</p>
             <button onclick="resetGameProgression()" class="w-full py-3 bg-[#00f5d4] text-slate-950 font-bold rounded-xl hover:scale-105 active:scale-95 transition-all duration-200 uppercase tracking-widest shadow-lg shadow-[#00f5d4]/20">
-                Recommencer à zéro
+                Réinitialiser & Recommencer
             </button>
         </div>
     </div>
 
     <!-- Conteneur principal de l'application -->
-    <div class="w-full max-w-lg glass-panel rounded-3xl p-6 md:p-8 shadow-2xl relative z-10">
+    <div class="w-full max-w-lg glass-panel rounded-3xl p-6 md:p-8 shadow-2xl relative z-10 my-8">
         
         <!-- ÉCRAN : MENU PRINCIPAL -->
         <div id="screen-menu" class="space-y-6 text-center">
             <div class="mb-4">
-                <span class="px-3 py-1 bg-[#ff007f]/20 border border-[#ff007f]/40 rounded-full text-[#ff007f] text-xs font-bold uppercase tracking-widest">Premium Edition</span>
+                <span class="px-3 py-1 bg-[#ff007f]/20 border border-[#ff007f]/40 rounded-full text-[#ff007f] text-xs font-bold uppercase tracking-widest">30 Niveaux - Edition Ultime</span>
             </div>
-            <h1 class="text-5xl font-black title-neon text-[#ff007f] tracking-tight py-2 uppercase">Logo Quiz</h1>
-            <p class="text-slate-400 text-lg max-w-sm mx-auto">Sauras-tu deviner le logo unique de chaque niveau ? Un défi de taille t'attend !</p>
+            <h1 class="text-4xl md:text-5xl font-black title-neon text-[#ff007f] tracking-tight py-2 uppercase">Logo Quiz</h1>
+            <p class="text-slate-400 text-lg max-w-sm mx-auto">Sauras-tu deviner les 30 logos uniques de cette édition ? Un véritable défi de mémoire t'attend.</p>
             
             <div class="pt-4">
-                <button onclick="changeScreen('screen-stages')" class="w-full md:w-auto px-10 py-4 bg-gradient-to-r from-[#ff007f] to-[#b30059] text-white font-bold text-lg rounded-xl transition duration-300 hover:shadow-lg hover:shadow-[#ff007f]/30 hover:scale-[1.03] active:scale-95 flex items-center justify-center gap-3 mx-auto">
-                    <i class="fa-solid fa-play"></i> JOUER MAINTENANT
+                <button onclick="changeScreen('screen-stages')" class="w-full md:w-auto px-10 py-4 bg-gradient-to-r from-[#ff007f] to-[#b30059] text-white font-bold text-lg rounded-xl transition duration-300 hover:shadow-lg hover:shadow-[#ff007f]/30 hover:scale-[1.03] active:scale-95 flex items-center justify-center gap-3 mx-auto uppercase">
+                    <i class="fa-solid fa-play"></i> Commencer le quiz
                 </button>
             </div>
         </div>
@@ -129,14 +137,17 @@
         <div id="screen-stages" class="hidden space-y-6">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <button onclick="changeScreen('screen-menu')" class="text-slate-400 hover:text-white transition flex items-center gap-2">
-                    <i class="fa-solid fa-chevron-left"></i> Retour
+                    <i class="fa-solid fa-chevron-left"></i> Menu
                 </button>
-                <h2 class="text-xl font-bold uppercase tracking-wider text-[#00f5d4] neon-text-cyan" style="font-family: 'Orbitron', sans-serif;">Sélection Stage</h2>
-                <div class="w-10"></div>
+                <h2 class="text-xl font-bold uppercase tracking-wider text-[#00f5d4] neon-text-cyan" style="font-family: 'Orbitron', sans-serif;">Niveaux (1 - 30)</h2>
+                <button onclick="resetGameProgression()" class="text-xs text-red-400 hover:text-red-500 transition uppercase tracking-widest font-semibold">
+                    <i class="fa-solid fa-trash-can mr-1"></i> Reset
+                </button>
             </div>
 
-            <div id="stages-container" class="grid grid-cols-3 gap-4 py-2">
-                <!-- Les cartes de niveau seront générées ici dynamiquement -->
+            <!-- Grille défilante de sélection de niveaux -->
+            <div id="stages-container" class="grid grid-cols-4 gap-3 py-2 max-h-[380px] overflow-y-auto pr-1">
+                <!-- Les 30 boutons de niveaux générés dynamiquement par JavaScript -->
             </div>
         </div>
 
@@ -146,33 +157,33 @@
             <!-- Barre d'état du niveau -->
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <button onclick="changeScreen('screen-stages')" class="text-slate-400 hover:text-white transition flex items-center gap-2">
-                    <i class="fa-solid fa-chevron-left"></i> Niveaux
+                    <i class="fa-solid fa-chevron-left"></i> Stages
                 </button>
                 <span id="game-title" class="text-lg font-bold text-[#ff007f] neon-text-pink uppercase tracking-widest" style="font-family: 'Orbitron', sans-serif;">Stage 1</span>
                 <div class="w-10"></div>
             </div>
 
-            <!-- Tentatives / Coeurs -->
+            <!-- Tentatives restantes (Affichage de 3 Cœurs) -->
             <div class="flex flex-col items-center justify-center space-y-2">
-                <span class="text-xs text-slate-400 uppercase tracking-wider">Tentatives restantes</span>
+                <span class="text-xs text-slate-400 uppercase tracking-wider">Vies restantes</span>
                 <div id="hearts-indicator" class="flex gap-3 text-2xl text-[#ff007f]">
-                    <!-- Rempli dynamiquement -->
+                    <!-- Les icônes de cœurs de vie s'insèrent ici -->
                 </div>
             </div>
 
-            <!-- Cadre d'affichage du Logo -->
+            <!-- Cadre d'affichage du Logo à deviner -->
             <div id="logo-wrapper" class="w-48 h-48 mx-auto bg-white rounded-2xl p-4 flex items-center justify-center transition-all duration-300 border border-slate-800">
                 <img id="logo-img" src="" alt="Quiz Logo" class="max-w-full max-h-full object-contain pointer-events-none select-none">
             </div>
 
-            <!-- Message d'alerte / Feedback / Compte à rebours de blocage -->
+            <!-- Zone de feedback dynamique / Compte à rebours de pénalité -->
             <div id="feedback-panel" class="text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide">
-                <!-- Messages injectés dynamiquement -->
+                <!-- Les indications d'erreur, succès ou blocage se dessinent ici -->
             </div>
 
-            <!-- Formulaire de saisie -->
+            <!-- Formulaire de saisie utilisateur -->
             <div class="space-y-3">
-                <input type="text" id="answer-input" autocomplete="off" placeholder="Entrez le nom de la marque..." class="custom-input w-full px-5 py-4 text-center rounded-xl border border-slate-800 text-lg uppercase tracking-widest text-white font-bold outline-none">
+                <input type="text" id="answer-input" autocomplete="off" placeholder="Nom de la marque..." class="custom-input w-full px-5 py-4 text-center rounded-xl border border-slate-800 text-lg uppercase tracking-widest text-white font-bold outline-none">
                 <button id="submit-btn" onclick="submitAnswer()" class="w-full py-4 bg-[#ff007f] hover:bg-[#ff007f]/90 text-white font-bold rounded-xl transition-all duration-200 uppercase tracking-widest hover:scale-[1.01] active:scale-95 shadow-lg shadow-[#ff007f]/20">
                     Valider la réponse
                 </button>
@@ -182,7 +193,7 @@
     </div>
 
     <script>
-        // Liste complète des niveaux du jeu. 1 Quiz par stage avec des logos stables de Wikimedia
+        // 1. Base de données complète de 30 NIVEAUX (1 seul logo par niveau)
         const gameStages = [
             { id: 1, name: "Stage 1", answer: "nike", image: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" },
             { id: 2, name: "Stage 2", answer: "apple", image: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" },
@@ -192,19 +203,46 @@
             { id: 6, name: "Stage 6", answer: "starbucks", image: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Starbucks_Corporation_Logo_2011.svg" },
             { id: 7, name: "Stage 7", answer: "bmw", image: "https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg" },
             { id: 8, name: "Stage 8", answer: "amazon", image: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" },
-            { id: 9, name: "Stage 9", answer: "netflix", image: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" }
+            { id: 9, name: "Stage 9", answer: "netflix", image: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" },
+            { id: 10, name: "Stage 10", answer: "microsoft", image: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" },
+            { id: 11, name: "Stage 11", answer: "youtube", image: "https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" },
+            { id: 12, name: "Stage 12", answer: "adidas", image: "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg" },
+            { id: 13, name: "Stage 13", answer: "tesla", image: "https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_logo.svg" },
+            { id: 14, name: "Stage 14", answer: "facebook", image: "https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.svg" },
+            { id: 15, name: "Stage 15", answer: "instagram", image: "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" },
+            { id: 16, name: "Stage 16", answer: "coca cola", image: "https://upload.wikimedia.org/wikipedia/commons/c/cf/Coca-Cola_logo.svg" },
+            { id: 17, name: "Stage 17", answer: "audi", image: "https://upload.wikimedia.org/wikipedia/commons/9/92/Audi-Logo_2016.svg" },
+            { id: 18, name: "Stage 18", answer: "toyota", image: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Toyota_EU.svg" },
+            { id: 19, name: "Stage 19", answer: "spotify", image: "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" },
+            { id: 20, name: "Stage 20", answer: "disney", image: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Walt_Disney_Pictures_logo.svg" },
+            { id: 21, name: "Stage 21", answer: "nintendo", image: "https://upload.wikimedia.org/wikipedia/commons/0/0d/Nintendo.svg" },
+            { id: 22, name: "Stage 22", answer: "lego", image: "https://upload.wikimedia.org/wikipedia/commons/2/24/LEGO_logo.svg" },
+            { id: 23, name: "Stage 23", answer: "chanel", image: "https://upload.wikimedia.org/wikipedia/commons/9/92/Chanel_logo_interlocking_cs.svg" },
+            { id: 24, name: "Stage 24", answer: "burger king", image: "https://upload.wikimedia.org/wikipedia/commons/c/cc/Burger_King_2020.svg" },
+            { id: 25, name: "Stage 25", answer: "playboy", image: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Playboy_logo.svg" },
+            { id: 26, name: "Stage 26", answer: "mastercard", image: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" },
+            { id: 27, name: "Stage 27", answer: "windows", image: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Windows_logo_-_2012.svg" },
+            { id: 28, name: "Stage 28", answer: "puma", image: "https://upload.wikimedia.org/wikipedia/commons/8/88/Puma_Logo.svg" },
+            { id: 29, name: "Stage 29", answer: "ferrari", image: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Ferrari-Logo.svg" },
+            { id: 30, name: "Stage 30", answer: "star wars", image: "https://upload.wikimedia.org/wikipedia/commons/6/6c/Star_Wars_Logo.svg" }
         ];
 
-        // Variables d'état global du jeu
         let activeStageIndex = 0;
         let livesLeft = 3;
         let cooldownTimer = null;
-        let synth = null;
-        let synthLoop = null;
-        let audioContextInitialized = false;
-        let musicActive = false;
+        let audioCtx = null;
+        let musicPlaying = false;
 
-        // Change l'écran actuel avec animation visuelle légère
+        // Fonction d'aide pour nettoyer et normaliser les réponses de l'utilisateur
+        function normalizeString(str) {
+            return str
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "") // Supprime les accents
+                .replace(/[^a-z0-9]/g, "");     // Retire tout caractère spécial ou espace
+        }
+
+        // Changement d'écran dynamique
         function changeScreen(screenId) {
             document.getElementById('screen-menu').classList.add('hidden');
             document.getElementById('screen-stages').classList.add('hidden');
@@ -217,30 +255,25 @@
             }
         }
 
-        // Renvoie le niveau de déblocage maximal enregistré dans le navigateur (Local Storage)
         function getMaxUnlockedStage() {
-            return parseInt(localStorage.getItem('logo_quiz_max_stage')) || 1;
+            return parseInt(localStorage.getItem('logo_quiz_max_stage_v2')) || 1;
         }
 
-        // Enregistre le déblocage d'un nouveau niveau
         function unlockNextStage(stageId) {
             const currentMax = getMaxUnlockedStage();
             if (stageId > currentMax) {
-                localStorage.setItem('logo_quiz_max_stage', stageId);
+                localStorage.setItem('logo_quiz_max_stage_v2', stageId);
             }
         }
 
-        // Renvoie l'état résolu d'un niveau spécifique
         function isStageCompleted(stageId) {
-            return localStorage.getItem(`logo_quiz_stage_${stageId}_completed`) === 'true';
+            return localStorage.getItem(`logo_quiz_stage_v2_${stageId}_completed`) === 'true';
         }
 
-        // Marque un niveau comme terminé
         function setStageCompleted(stageId) {
-            localStorage.setItem(`logo_quiz_stage_${stageId}_completed`, 'true');
+            localStorage.setItem(`logo_quiz_stage_v2_${stageId}_completed`, 'true');
         }
 
-        // Génère le menu de sélection de niveau
         function renderStagesMenu() {
             const container = document.getElementById('stages-container');
             container.innerHTML = '';
@@ -252,25 +285,25 @@
                 const completed = isStageCompleted(stage.id);
                 const unlocked = stage.id <= maxUnlocked;
 
-                btn.className = "flex flex-col items-center justify-center p-4 rounded-xl border transition-all duration-300 ";
+                btn.className = "flex flex-col items-center justify-center p-3 rounded-xl border transition-all duration-300 min-h-[70px] ";
 
                 if (completed) {
                     btn.className += "bg-[#00f5d4]/10 border-[#00f5d4]/40 hover:border-[#00f5d4] text-[#00f5d4]";
                     btn.innerHTML = `
-                        <span class="font-bold text-lg" style="font-family: 'Orbitron', sans-serif;">${stage.id}</span>
-                        <span class="text-[10px] mt-1 font-semibold tracking-wider uppercase"><i class="fa-solid fa-circle-check"></i> Fini</span>
+                        <span class="font-bold text-base md:text-lg" style="font-family: 'Orbitron', sans-serif;">${stage.id}</span>
+                        <span class="text-[9px] mt-0.5 font-semibold tracking-wider uppercase"><i class="fa-solid fa-circle-check"></i> Fini</span>
                     `;
                 } else if (unlocked) {
                     btn.className += "bg-[#ff007f]/5 border-[#ff007f]/30 hover:border-[#ff007f] text-[#ff007f]";
                     btn.innerHTML = `
-                        <span class="font-bold text-lg" style="font-family: 'Orbitron', sans-serif;">${stage.id}</span>
-                        <span class="text-[10px] mt-1 font-semibold tracking-wider uppercase"><i class="fa-solid fa-lock-open"></i> Prêt</span>
+                        <span class="font-bold text-base md:text-lg" style="font-family: 'Orbitron', sans-serif;">${stage.id}</span>
+                        <span class="text-[9px] mt-0.5 font-semibold tracking-wider uppercase"><i class="fa-solid fa-lock-open"></i> Jouer</span>
                     `;
                 } else {
-                    btn.className += "bg-slate-900/40 border-slate-800 text-slate-600 cursor-not-allowed";
+                    btn.className += "bg-slate-950/60 border-slate-900 text-slate-700 cursor-not-allowed";
                     btn.innerHTML = `
-                        <span class="font-bold text-lg" style="font-family: 'Orbitron', sans-serif;">${stage.id}</span>
-                        <span class="text-[10px] mt-1 font-semibold tracking-wider"><i class="fa-solid fa-lock"></i> Verrouillé</span>
+                        <span class="font-bold text-base md:text-lg" style="font-family: 'Orbitron', sans-serif;">${stage.id}</span>
+                        <span class="text-[9px] mt-0.5 font-semibold tracking-wider"><i class="fa-solid fa-lock"></i></span>
                     `;
                 }
 
@@ -284,7 +317,12 @@
 
         // Lance le jeu pour un stage particulier
         function launchQuiz(idx) {
-            initAudio(); // Initialisation paresseuse de Tone.js lors du clic utilisateur
+            // Auto-play de la musique au premier clic sur un niveau (requis par les navigateurs web)
+            const musicPlayer = document.getElementById('custom-bg-music');
+            if (!musicPlaying && musicPlayer) {
+                handleMusicToggle();
+            }
+
             activeStageIndex = idx;
             livesLeft = 3;
 
@@ -293,7 +331,6 @@
             checkAndApplyCooldown();
         }
 
-        // Met à jour les éléments de l'interface graphique de jeu
         function updateGameUI() {
             const currentStage = gameStages[activeStageIndex];
             document.getElementById('game-title').innerText = currentStage.name;
@@ -304,7 +341,7 @@
             updateHeartsUI();
         }
 
-        // Met à jour l'affichage des cœurs / tentatives restantes
+        // Dessine les 3 cœurs de vie néon
         function updateHeartsUI() {
             const container = document.getElementById('hearts-indicator');
             container.innerHTML = '';
@@ -319,55 +356,53 @@
             }
         }
 
-        // Enregistre l'échec et lance le compte à rebours de 5 min dans LocalStorage
         function startBlockageCooldown() {
             const cooldownDuration = 5 * 60 * 1000; // 5 minutes en millisecondes
             const unlockTime = Date.now() + cooldownDuration;
-            localStorage.setItem('logo_quiz_cooldown_end', unlockTime);
+            localStorage.setItem('logo_quiz_cooldown_end_v2', unlockTime);
             
-            playToneEffect("lock");
+            playSynthSound("lock");
             checkAndApplyCooldown();
         }
 
-        // Vérifie si l'utilisateur est présentement bloqué
         function checkAndApplyCooldown() {
             clearInterval(cooldownTimer);
-            const cooldownEnd = localStorage.getItem('logo_quiz_cooldown_end');
+            const cooldownEnd = localStorage.getItem('logo_quiz_cooldown_end_v2');
             
             if (cooldownEnd) {
                 const timeLeft = parseInt(cooldownEnd) - Date.now();
                 
                 if (timeLeft > 0) {
-                    // Désactivation des entrées
+                    // Verrouille l'accès aux contrôles
                     document.getElementById('answer-input').disabled = true;
                     document.getElementById('submit-btn').disabled = true;
-                    document.getElementById('submit-btn').className = "w-full py-4 bg-slate-800 text-slate-500 font-bold rounded-xl cursor-not-allowed uppercase tracking-widest";
+                    document.getElementById('submit-btn').className = "w-full py-4 bg-slate-900 text-slate-600 font-bold rounded-xl cursor-not-allowed uppercase tracking-widest";
                     livesLeft = 0;
                     updateHeartsUI();
 
                     runCooldownCountdown();
                     return true;
                 } else {
-                    // Le temps est écoulé, on nettoie
-                    localStorage.removeItem('logo_quiz_cooldown_end');
+                    // Libération automatique
+                    localStorage.removeItem('logo_quiz_cooldown_end_v2');
                     resetUserAttempts();
                 }
             }
             
-            // Activation normale
+            // État actif normal
             document.getElementById('answer-input').disabled = false;
             document.getElementById('submit-btn').disabled = false;
             document.getElementById('submit-btn').className = "w-full py-4 bg-[#ff007f] hover:bg-[#ff007f]/90 text-white font-bold rounded-xl transition-all duration-200 uppercase tracking-widest hover:scale-[1.01] active:scale-95 shadow-lg shadow-[#ff007f]/20";
             return false;
         }
 
-        // Démarre la boucle visuelle du décompte
+        // Gestionnaire d'affichage du chronomètre de blocage
         function runCooldownCountdown() {
             const panel = document.getElementById('feedback-panel');
             panel.className = "text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide bg-amber-500/10 border border-amber-500/40 text-amber-500";
 
             cooldownTimer = setInterval(() => {
-                const cooldownEnd = localStorage.getItem('logo_quiz_cooldown_end');
+                const cooldownEnd = localStorage.getItem('logo_quiz_cooldown_end_v2');
                 if (!cooldownEnd) {
                     clearInterval(cooldownTimer);
                     resetUserAttempts();
@@ -378,7 +413,7 @@
 
                 if (remaining <= 0) {
                     clearInterval(cooldownTimer);
-                    localStorage.removeItem('logo_quiz_cooldown_end');
+                    localStorage.removeItem('logo_quiz_cooldown_end_v2');
                     resetUserAttempts();
                 } else {
                     const minutes = Math.floor(remaining / 60000);
@@ -389,12 +424,11 @@
             }, 1000);
         }
 
-        // Restaure les tentatives après blocage
+        // Restauration des conditions d'interaction de saisie
         function resetUserAttempts() {
             livesLeft = 3;
             updateHeartsUI();
             
-            // Réactivation des entrées
             document.getElementById('answer-input').disabled = false;
             document.getElementById('submit-btn').disabled = false;
             document.getElementById('submit-btn').className = "w-full py-4 bg-[#ff007f] hover:bg-[#ff007f]/90 text-white font-bold rounded-xl transition-all duration-200 uppercase tracking-widest hover:scale-[1.01] active:scale-95 shadow-lg shadow-[#ff007f]/20";
@@ -405,7 +439,6 @@
             document.getElementById('answer-input').focus();
         }
 
-        // Gère la soumission et la vérification de la réponse saisie
         function submitAnswer() {
             const activeCooldown = checkAndApplyCooldown();
             if (activeCooldown) return;
@@ -414,11 +447,10 @@
             const wrapperEl = document.getElementById('logo-wrapper');
             const panel = document.getElementById('feedback-panel');
             
-            const userAnswer = inputEl.value.trim().toLowerCase();
+            const userAnswer = normalizeString(inputEl.value);
             const currentStage = gameStages[activeStageIndex];
-            const correctAnswer = currentStage.answer;
+            const correctAnswer = normalizeString(currentStage.answer);
 
-            // Retrait des classes de retour d'effet
             wrapperEl.classList.remove('animate-shake', 'neon-border-pink', 'neon-border-cyan');
 
             if (userAnswer === correctAnswer) {
@@ -430,7 +462,7 @@
                 panel.className = "text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide bg-[#00f5d4]/10 border border-[#00f5d4]/40 text-[#00f5d4] neon-text-cyan";
                 panel.innerHTML = `<i class="fa-solid fa-circle-check mr-2"></i> Excellente réponse !`;
 
-                playToneEffect("success");
+                playSynthSound("success");
 
                 setTimeout(() => {
                     panel.innerHTML = "";
@@ -439,9 +471,9 @@
                     if (activeStageIndex + 1 < gameStages.length) {
                         launchQuiz(activeStageIndex + 1);
                     } else {
-                        // Fin complète du jeu
+                        // Fin complète des 30 niveaux
                         document.getElementById('win-modal').classList.remove('hidden');
-                        playToneEffect("win");
+                        playSynthSound("win");
                     }
                 }, 1500);
 
@@ -451,13 +483,13 @@
                 updateHeartsUI();
                 
                 wrapperEl.classList.add('animate-shake', 'neon-border-pink');
-                playToneEffect("wrong");
+                playSynthSound("wrong");
 
                 if (livesLeft <= 0) {
                     startBlockageCooldown();
                 } else {
                     panel.className = "text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide bg-[#ff007f]/10 border border-[#ff007f]/40 text-[#ff007f] neon-text-pink";
-                    panel.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-2"></i> Mauvaise réponse ! Il vous reste ${livesLeft} vie(s).`;
+                    panel.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-2"></i> Mauvaise réponse ! Il vous reste ${livesLeft} tentative(s).`;
                 }
 
                 setTimeout(() => {
@@ -466,110 +498,121 @@
             }
         }
 
-        // Permet d'appuyer sur Entrée pour valider directement
+        // Valider avec la touche Entrée du clavier
         document.getElementById('answer-input').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 submitAnswer();
             }
         });
 
-        // Supprime la progression locale
+        // Suppression complète de la progression utilisateur
         function resetGameProgression() {
-            localStorage.clear();
+            localStorage.removeItem('logo_quiz_max_stage_v2');
+            localStorage.removeItem('logo_quiz_cooldown_end_v2');
+            gameStages.forEach(stage => {
+                localStorage.removeItem(`logo_quiz_stage_v2_${stage.id}_completed`);
+            });
             document.getElementById('win-modal').classList.add('hidden');
             changeScreen('screen-menu');
         }
 
-        // Initialisation de l'Audio en temps réel via Tone.js (sans URLs MP3 externes instables)
-        function initAudio() {
-            if (audioContextInitialized) return;
-
-            // Synthétiseur pour les effets sonores
-            synth = new Tone.Synth({
-                oscillator: { type: 'sine' },
-                envelope: { attack: 0.05, decay: 0.1, sustain: 0.3, release: 0.8 }
-            }).toDestination();
-
-            // Synthétiseur mélodique d'ambiance Lo-Fi pour la musique
-            const musicSynth = new Tone.PolySynth(Tone.Synth, {
-                oscillator: { type: 'triangle' },
-                envelope: { attack: 1.2, decay: 1, sustain: 0.7, release: 2 }
-            }).toDestination();
-            musicSynth.volume.value = -16; // Baisser le volume de fond pour le confort de jeu
-
-            // Séquenceur d'accords cyberpunk pour l'ambiance
-            const chords = [
-                ["D3", "F3", "A3"],
-                ["G3", "A#3", "D4"],
-                ["C3", "E3", "G3"],
-                ["A3", "C4", "E4"]
-            ];
-            
-            let chordIndex = 0;
-            synthLoop = new Tone.Loop(time => {
-                musicSynth.triggerAttackRelease(chords[chordIndex], "3n", time);
-                chordIndex = (chordIndex + 1) % chords.length;
-            }, "2m");
-
-            audioContextInitialized = true;
-        }
-
-        // Contrôle le bouton audio On/Off
-        function handleMusicToggle() {
-            initAudio(); // Garantie d'activation suite à une interaction utilisateur directe
-
-            const icon = document.getElementById('audio-icon');
-            const btn = document.getElementById('audio-toggle');
-
-            if (musicActive) {
-                Tone.Transport.stop();
-                icon.className = "fa-solid fa-volume-xmark";
-                btn.style.borderColor = "rgba(0, 245, 212, 0.4)";
-                btn.style.color = "#00f5d4";
-                musicActive = false;
-            } else {
-                Tone.start();
-                Tone.Transport.start();
-                synthLoop.start(0);
-                icon.className = "fa-solid fa-volume-high";
-                btn.style.borderColor = "#00f5d4";
-                btn.style.color = "#030008";
-                btn.className = "fixed top-6 right-6 w-12 h-12 rounded-full glass-panel flex items-center justify-center text-xl bg-[#00f5d4] transition duration-300 hover:scale-110 z-50";
-                musicActive = true;
+        function initAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
         }
 
-        // Joue des effets sonores synthétisés selon la situation de jeu
-        function playToneEffect(type) {
-            if (!audioContextInitialized) return;
+        // Contrôle de la musique personnalisée (musique.mp3)
+        function handleMusicToggle() {
+            initAudioContext();
+            const musicPlayer = document.getElementById('custom-bg-music');
+            const icon = document.getElementById('audio-icon');
+            const btn = document.getElementById('audio-toggle');
 
-            // Permet de s'assurer que Tone est en cours d'exécution
-            Tone.start();
+            if (!musicPlayer) return;
 
-            if (type === "success") {
-                synth.triggerAttackRelease("C5", "16n");
-                setTimeout(() => synth.triggerAttackRelease("E5", "16n"), 100);
-                setTimeout(() => synth.triggerAttackRelease("G5", "8n"), 200);
-            } else if (type === "wrong") {
-                synth.triggerAttackRelease("F2", "8n");
-                setTimeout(() => synth.triggerAttackRelease("C2", "4n"), 120);
-            } else if (type === "lock") {
-                // Son dramatique de descente
-                synth.triggerAttackRelease("G3", "8n");
-                setTimeout(() => synth.triggerAttackRelease("E3", "8n"), 150);
-                setTimeout(() => synth.triggerAttackRelease("C3", "2n"), 300);
-            } else if (type === "win") {
-                // Arpège de fanfare triomphante
-                const notes = ["C4", "E4", "G4", "C5", "E5", "G5", "C6"];
-                notes.forEach((note, index) => {
-                    setTimeout(() => {
-                        synth.triggerAttackRelease(note, "8n");
-                    }, index * 150);
+            if (musicPlaying) {
+                musicPlayer.pause();
+                icon.className = "fa-solid fa-volume-xmark";
+                btn.style.borderColor = "rgba(0, 245, 212, 0.4)";
+                btn.style.color = "#00f5d4";
+                btn.className = "fixed top-6 right-6 w-12 h-12 rounded-full glass-panel flex items-center justify-center text-xl text-[#00f5d4] transition duration-300 hover:scale-110 border border-[#00f5d4]/40 z-50";
+                musicPlaying = false;
+            } else {
+                musicPlayer.volume = 0.25; // Volume d'ambiance à 25%
+                musicPlayer.play().then(() => {
+                    icon.className = "fa-solid fa-volume-high";
+                    btn.style.borderColor = "#00f5d4";
+                    btn.style.color = "#030008";
+                    btn.className = "fixed top-6 right-6 w-12 h-12 rounded-full glass-panel flex items-center justify-center text-xl bg-[#00f5d4] transition duration-300 hover:scale-110 z-50";
+                    musicPlaying = true;
+                }).catch(e => {
+                    console.log("Lecture audio retardée en attente d'une interaction directe de l'utilisateur.");
                 });
             }
         }
 
-        // Initialisation lors du lancement initial de la page
+        // Synthétiseur d'effets sonores natif (pas besoin de fichiers externes pour les bruitages !)
+        function playSynthSound(type) {
+            initAudioContext();
+            if (!audioCtx) return;
+
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === "success") {
+                osc.type = "sine";
+                osc.frequency.setValueAtTime(440, now); // La
+                osc.frequency.exponentialRampToValueAtTime(880, now + 0.15); // La octave
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === "wrong") {
+                osc.type = "sawtooth";
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.linearRampToValueAtTime(80, now + 0.25);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            } else if (type === "lock") {
+                osc.type = "triangle";
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.linearRampToValueAtTime(110, now + 0.5);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.6);
+                osc.start(now);
+                osc.stop(now + 0.6);
+            } else if (type === "win") {
+                // Arpège de victoire
+                const notes = [261.63, 329.63, 392.00, 523.25]; // Do3, Mi3, Sol3, Do4
+                notes.forEach((freq, idx) => {
+                    const stepOsc = audioCtx.createOscillator();
+                    const stepGain = audioCtx.createGain();
+                    stepOsc.connect(stepGain);
+                    stepGain.connect(audioCtx.destination);
+                    
+                    stepOsc.type = "sine";
+                    stepOsc.frequency.setValueAtTime(freq, now + idx * 0.12);
+                    stepGain.gain.setValueAtTime(0.15, now + idx * 0.12);
+                    stepGain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.12 + 0.4);
+                    
+                    stepOsc.start(now + idx * 0.12);
+                    stepOsc.stop(now + idx * 0.12 + 0.4);
+                });
+            }
+        }
+
+        // Lancement initial de la page
         window.onload = function() {
             checkAndApplyCooldown();
         }
