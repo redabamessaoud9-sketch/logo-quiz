@@ -3,146 +3,406 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logo Quiz Master</title>
+    <title>Logo Quiz Master - Premium</title>
+    <!-- Importation de Google Fonts et FontAwesome pour des icônes modernes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
         :root {
-            --primary: #4A90E2;
-            --bg: #2C3E50;
-            --text: #FFFFFF;
-            --success: #2ECC71;
-            --error: #E74C3C;
+            --primary: #a855f7;       /* Violet électrique */
+            --primary-glow: rgba(168, 85, 247, 0.4);
+            --secondary: #06b6d4;     /* Cyan néon */
+            --bg-dark: #0f172a;       /* Fond ardoise ultra sombre */
+            --panel-bg: rgba(30, 41, 59, 0.7); /* Effet verre fumé */
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;       /* Vert émeraude */
+            --error: #f43f5e;         /* Rose/Rouge vif */
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            text-align: center;
+
+        * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(6, 118, 212, 0.15) 0px, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            overflow: hidden;
         }
+
+        /* Conteneur principal */
         .container {
-            background: rgba(0, 0, 0, 0.5);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             width: 90%;
-            max-width: 500px;
-        }
-        h1 { margin-top: 0; font-size: 2.5em; color: var(--primary); }
-        button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 1.2em;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        button:hover { background-color: #357ABD; }
-        input[type="text"] {
-            padding: 10px;
-            font-size: 1.2em;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            width: 80%;
-            margin-bottom: 15px;
+            max-width: 600px;
+            padding: 40px;
+            position: relative;
+            z-index: 2;
             text-align: center;
         }
-        .hidden { display: none !important; }
-        #logo-image {
-            width: 200px;
-            height: 200px;
-            object-fit: contain;
-            background: white;
-            border-radius: 10px;
-            margin: 20px auto;
-            display: block;
+
+        /* En-têtes */
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--text-main) 30%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            text-transform: uppercase;
         }
-        .stage-btn { background-color: #f39c12; }
-        .stage-btn:hover { background-color: #d68910; }
-        #feedback { font-weight: bold; margin-bottom: 15px; min-height: 24px; }
-        .music-btn { position: absolute; top: 10px; right: 10px; font-size: 0.9em; }
+
+        h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        /* Boutons stylisés */
+        .btn {
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px var(--primary-glow);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--primary-glow);
+            filter: brightness(1.1);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--secondary);
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
+            color: var(--secondary);
+        }
+
+        /* Grille des Stages */
+        .stages-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        /* Custom Scrollbar pour la liste des niveaux */
+        .stages-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .stages-grid::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .stages-grid::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .stage-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .stage-card .stage-num {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .stage-card .stage-status {
+            font-size: 0.9rem;
+            margin-top: 8px;
+            color: var(--text-muted);
+        }
+
+        /* États des cartes de niveau */
+        .stage-card.unlocked {
+            border-color: rgba(6, 182, 212, 0.2);
+            background: rgba(6, 182, 212, 0.03);
+        }
+        .stage-card.unlocked:hover {
+            border-color: var(--secondary);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(6, 182, 212, 0.15);
+        }
+        .stage-card.completed {
+            border-color: rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.05);
+        }
+        .stage-card.completed .stage-status {
+            color: var(--success);
+        }
+        .stage-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Zone d'affichage du Logo */
+        .logo-frame {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            width: 220px;
+            height: 220px;
+            margin: 0 auto 25px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 10px 25px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+        .logo-frame img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Barre d'écriture futuriste */
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+            width: 100%;
+        }
+
+        .input-bar {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 16px 24px;
+            font-size: 1.2rem;
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            text-align: center;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .input-bar:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+            background: rgba(15, 23, 42, 0.8);
+        }
+
+        /* Feedback d'erreur ou réussite */
+        #feedback {
+            font-size: 1.1rem;
+            font-weight: 700;
+            min-height: 28px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Bouton de musique discret en coin */
+        .music-control {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        .music-control:hover {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
+            transform: rotate(15deg);
+        }
+
+        /* Masquage des écrans */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Animations */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+        .shake {
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes success-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(16, 185, 129, 0.6); }
+            100% { transform: scale(1); }
+        }
+        .success-glow {
+            animation: success-pulse 0.6s ease;
+        }
     </style>
 </head>
 <body>
 
-    <audio id="bg-music" loop>
-        <source src="musique.mp3" type="audio/mpeg">
+    <!-- Lecteur audio : Musique d'ambiance Lo-Fi libre de droit -->
+    <audio id="bg-music" loop preload="auto">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
     </audio>
 
-    <button id="music-toggle" class="music-btn" onclick="toggleMusic()">🎵 Musique : OFF</button>
+    <button id="music-btn" class="music-control" onclick="toggleMusic()">
+        <i class="fa-solid fa-volume-xmark"></i>
+    </button>
 
     <div class="container">
+        
+        <!-- ÉCRAN : MENU PRINCIPAL -->
         <div id="menu-screen">
             <h1>Logo Quiz</h1>
-            <p>Devinez les marques pour passer au niveau supérieur !</p>
-            <button onclick="showStages()">Jouer</button>
+            <p class="subtitle">Identifiez la marque mystère de chaque niveau</p>
+            <button class="btn" onclick="showStages()">
+                <i class="fa-solid fa-play"></i> Lancer la partie
+            </button>
         </div>
 
+        <!-- ÉCRAN : SÉLECTION DE STAGE -->
         <div id="stage-screen" class="hidden">
-            <h2>Choisissez un niveau</h2>
-            <div id="stage-list">
-                </div>
-            <button onclick="showMenu()" style="background-color: #7f8c8d;">Retour</button>
+            <h2>Sélection de Niveau</h2>
+            <div class="stages-grid" id="stages-grid">
+                <!-- Généré dynamiquement en JS -->
+            </div>
+            <button class="btn btn-secondary" onclick="showMenu()">
+                <i class="fa-solid fa-arrow-left"></i> Menu Principal
+            </button>
         </div>
 
+        <!-- ÉCRAN : INTERACTION DU JEU -->
         <div id="game-screen" class="hidden">
-            <h2 id="stage-title">Niveau 1</h2>
-            <p>Logo <span id="current-logo-num">1</span> / <span id="total-logos">X</span></p>
+            <h2 id="game-stage-title">Niveau X</h2>
             
-            <img id="logo-image" src="" alt="Logo à deviner">
-            
+            <div class="logo-frame" id="logo-frame">
+                <img id="logo-image" src="" alt="Logo à deviner">
+            </div>
+
             <div id="feedback"></div>
-            
-            <input type="text" id="answer-input" placeholder="Nom de la marque..." autocomplete="off">
-            <br>
-            <button onclick="checkAnswer()">Valider</button>
-            <button onclick="showStages()" style="background-color: #7f8c8d;">Quitter</button>
+
+            <div class="input-group">
+                <input type="text" class="input-bar" id="answer-input" placeholder="ÉCRIS TA RÉPONSE ICI..." autocomplete="off">
+            </div>
+
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <button class="btn btn-secondary" onclick="showStages()">
+                    <i class="fa-solid fa-grip"></i> Niveaux
+                </button>
+                <button class="btn" onclick="checkAnswer()">
+                    <i class="fa-solid fa-circle-check"></i> Valider
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        // 1. Base de données du jeu (À personnaliser avec tes images)
+        // Base de données avec 1 unique quiz par Stage
+        // Utilisation d'adresses SVG fiables de Wikimedia. Remplaçables par tes propres chemins (ex: "images/mon_image.png")
         const gameData = [
-            {
-                stage: 1,
-                logos: [
-                    // Remplace les liens par les images de ton dossier sur GitHub
-                    { image: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg", answer: "google" },
-                    { image: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg", answer: "apple" }
-                ]
-            },
-            {
-                stage: 2,
-                logos: [
-                    { image: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg", answer: "nike" },
-                    { image: "https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg", answer: "bmw" }
-                ]
-            }
+            { stage: 1, logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg", answer: "google" },
+            { stage: 2, logo: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg", answer: "apple" },
+            { stage: 3, logo: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg", answer: "nike" },
+            { stage: 4, logo: "https://upload.wikimedia.org/wikipedia/commons/0/0f/Pepsi_logo_2014.svg", answer: "pepsi" },
+            { stage: 5, logo: "https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg", answer: "mcdonalds" },
+            { stage: 6, logo: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Starbucks_Corporation_Logo_2011.svg", answer: "starbucks" },
+            { stage: 7, logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg", answer: "bmw" },
+            { stage: 8, logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg", answer: "amazon" },
+            { stage: 9, logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg", answer: "netflix" }
         ];
 
-        // Variables d'état du jeu
         let currentStageIndex = 0;
-        let currentLogoIndex = 0;
         let musicPlaying = false;
 
-        // Récupération des éléments HTML
+        // Écrans & Éléments
         const menuScreen = document.getElementById('menu-screen');
         const stageScreen = document.getElementById('stage-screen');
         const gameScreen = document.getElementById('game-screen');
-        const stageList = document.getElementById('stage-list');
+        const stagesGrid = document.getElementById('stages-grid');
         const logoImage = document.getElementById('logo-image');
+        const logoFrame = document.getElementById('logo-frame');
         const answerInput = document.getElementById('answer-input');
         const feedback = document.getElementById('feedback');
         const bgMusic = document.getElementById('bg-music');
-        const musicToggleBtn = document.getElementById('music-toggle');
+        const musicBtn = document.getElementById('music-btn');
+
+        // Initialisation de la progression sauvegardée
+        function getUnlockedStage() {
+            return parseInt(localStorage.getItem('logoQuizMaxStage')) || 1;
+        }
+
+        function unlockNextStage(stageNum) {
+            const currentMax = getUnlockedStage();
+            if (stageNum > currentMax) {
+                localStorage.setItem('logoQuizMaxStage', stageNum);
+            }
+        }
 
         // Navigation
         function showMenu() {
@@ -155,70 +415,110 @@
             menuScreen.classList.add('hidden');
             stageScreen.classList.remove('hidden');
             gameScreen.classList.add('hidden');
-            
-            // Générer les boutons de niveaux
-            stageList.innerHTML = '';
-            gameData.forEach((stageData, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'stage-btn';
-                btn.innerText = `Niveau ${stageData.stage}`;
-                btn.onclick = () => startStage(index);
-                stageList.appendChild(btn);
+            renderStagesGrid();
+        }
+
+        // Génère dynamiquement le sélecteur de niveaux
+        function renderStagesGrid() {
+            stagesGrid.innerHTML = '';
+            const maxUnlocked = getUnlockedStage();
+
+            gameData.forEach((data, index) => {
+                const card = document.createElement('div');
+                card.className = 'stage-card';
+                
+                const isCompleted = localStorage.getItem(`stage_${data.stage}_done`) === "true";
+                const isUnlocked = data.stage <= maxUnlocked;
+
+                if (isCompleted) {
+                    card.classList.add('completed');
+                    card.innerHTML = `
+                        <div class="stage-num">${data.stage}</div>
+                        <div class="stage-status"><i class="fa-solid fa-circle-check"></i> Fini</div>
+                    `;
+                } else if (isUnlocked) {
+                    card.classList.add('unlocked');
+                    card.innerHTML = `
+                        <div class="stage-num">${data.stage}</div>
+                        <div class="stage-status"><i class="fa-solid fa-lock-open"></i> Prêt</div>
+                    `;
+                } else {
+                    card.classList.add('locked');
+                    card.innerHTML = `
+                        <div class="stage-num" style="color: var(--text-muted);">${data.stage}</div>
+                        <div class="stage-status"><i class="fa-solid fa-lock"></i></div>
+                    `;
+                }
+
+                if (isUnlocked) {
+                    card.onclick = () => launchGame(index);
+                }
+
+                stagesGrid.appendChild(card);
             });
         }
 
-        // Logique du Jeu
-        function startStage(index) {
+        // Lancement d'un niveau
+        function launchGame(index) {
             currentStageIndex = index;
-            currentLogoIndex = 0;
-            
-            // Démarrer la musique au premier clic sur un niveau (règle des navigateurs)
-            if (!musicPlaying) toggleMusic();
-
             stageScreen.classList.add('hidden');
             gameScreen.classList.remove('hidden');
-            document.getElementById('stage-title').innerText = `Niveau ${gameData[currentStageIndex].stage}`;
-            document.getElementById('total-logos').innerText = gameData[currentStageIndex].logos.length;
-            
-            loadLogo();
-        }
 
-        function loadLogo() {
-            const currentStageData = gameData[currentStageIndex];
-            const logoData = currentStageData.logos[currentLogoIndex];
-            
-            logoImage.src = logoData.image;
-            document.getElementById('current-logo-num').innerText = currentLogoIndex + 1;
+            // Lancer la musique au premier clic sur l'écran
+            if (!musicPlaying) {
+                toggleMusic();
+            }
+
+            document.getElementById('game-stage-title').innerText = `Niveau ${gameData[index].stage}`;
+            logoImage.src = gameData[index].logo;
             answerInput.value = '';
             feedback.innerText = '';
+            feedback.style.color = 'transparent';
             answerInput.focus();
         }
 
+        // Logique de validation
         function checkAnswer() {
-            const currentStageData = gameData[currentStageIndex];
-            const correctAnswer = currentStageData.logos[currentLogoIndex].answer.toLowerCase();
+            const currentStage = gameData[currentStageIndex];
             const userAnswer = answerInput.value.trim().toLowerCase();
+            const correctAnswer = currentStage.answer.toLowerCase();
+
+            // Supprimer d'éventuels effets précédents
+            logoFrame.classList.remove('shake', 'success-glow');
 
             if (userAnswer === correctAnswer) {
+                // Succès
                 feedback.style.color = 'var(--success)';
-                feedback.innerText = 'Bonne réponse !';
-                
+                feedback.innerText = 'Excellent ! Niveau complété.';
+                logoFrame.classList.add('success-glow');
+
+                // Enregistrer la complétion & débloquer le niveau suivant
+                localStorage.setItem(`stage_${currentStage.stage}_done`, "true");
+                unlockNextStage(currentStage.stage + 1);
+
                 setTimeout(() => {
-                    currentLogoIndex++;
-                    if (currentLogoIndex < currentStageData.logos.length) {
-                        loadLogo();
+                    if (currentStageIndex + 1 < gameData.length) {
+                        launchGame(currentStageIndex + 1);
                     } else {
-                        alert('Niveau terminé ! Bravo !');
+                        alert("Félicitations ! Vous avez complété tous les niveaux de Logo Quiz !");
                         showStages();
                     }
-                }, 1000);
+                }, 1500);
+
             } else {
+                // Échec
                 feedback.style.color = 'var(--error)';
-                feedback.innerText = 'Mauvaise réponse, essayez encore.';
+                feedback.innerText = 'Réponse incorrecte. Essaie encore !';
+                logoFrame.classList.add('shake');
+                
+                // Retirer la classe de secousse pour pouvoir la relancer après
+                setTimeout(() => {
+                    logoFrame.classList.remove('shake');
+                }, 400);
             }
         }
 
-        // Permettre de valider avec la touche Entrée
+        // Détection de la touche Entrée pour valider directement
         answerInput.addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
@@ -226,15 +526,20 @@
             }
         });
 
-        // Gestion de la Musique
+        // Gestion de la Musique d'ambiance
         function toggleMusic() {
             if (musicPlaying) {
                 bgMusic.pause();
-                musicToggleBtn.innerText = "🎵 Musique : OFF";
+                musicBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+                musicBtn.style.background = 'rgba(255, 255, 255, 0.05)';
             } else {
-                // Les navigateurs modernes bloquent l'audio s'il n'y a pas eu d'interaction utilisateur
-                bgMusic.play().catch(e => console.log("L'audio a besoin d'une interaction utilisateur au préalable."));
-                musicToggleBtn.innerText = "🎵 Musique : ON";
+                bgMusic.volume = 0.3; // Volume doux
+                bgMusic.play().then(() => {
+                    musicBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+                    musicBtn.style.background = 'var(--secondary)';
+                }).catch(e => {
+                    console.log("Le navigateur a bloqué le démarrage de l'audio. Jouez pour l'activer.");
+                });
             }
             musicPlaying = !musicPlaying;
         }
