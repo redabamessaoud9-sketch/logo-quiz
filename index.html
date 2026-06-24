@@ -3,545 +3,575 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logo Quiz Master - Premium</title>
-    <!-- Importation de Google Fonts et FontAwesome pour des icônes modernes -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <title>Logo Quiz Cyberpunk Edition</title>
+    <!-- Tailwind CSS pour un design responsive ultra rapide -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts pour la typographie futuriste -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome pour les icônes de contrôle et de jeu -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
+    <!-- Tone.js pour la musique et les effets sonores synthétisés en temps réel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
     <style>
-        :root {
-            --primary: #a855f7;       /* Violet électrique */
-            --primary-glow: rgba(168, 85, 247, 0.4);
-            --secondary: #06b6d4;     /* Cyan néon */
-            --bg-dark: #0f172a;       /* Fond ardoise ultra sombre */
-            --panel-bg: rgba(30, 41, 59, 0.7); /* Effet verre fumé */
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --success: #10b981;       /* Vert émeraude */
-            --error: #f43f5e;         /* Rose/Rouge vif */
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
             font-family: 'Rajdhani', sans-serif;
-            background-color: var(--bg-dark);
+            background-color: #030008;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(6, 118, 212, 0.15) 0px, transparent 50%);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+                radial-gradient(at 10% 20%, rgba(255, 0, 127, 0.15) 0px, transparent 40%),
+                radial-gradient(at 90% 80%, rgba(0, 245, 212, 0.15) 0px, transparent 40%);
+        }
+        
+        .title-neon {
+            font-family: 'Orbitron', sans-serif;
+            text-shadow: 0 0 10px rgba(255, 0, 127, 0.8), 0 0 20px rgba(255, 0, 127, 0.4);
         }
 
-        /* Conteneur principal */
-        .container {
-            background: var(--panel-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+        .neon-border-pink {
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4), inset 0 0 15px rgba(255, 0, 127, 0.2);
+            border: 2px solid #ff007f;
+        }
+
+        .neon-border-cyan {
+            box-shadow: 0 0 15px rgba(0, 245, 212, 0.4), inset 0 0 15px rgba(0, 245, 212, 0.2);
+            border: 2px solid #00f5d4;
+        }
+
+        .neon-text-cyan {
+            text-shadow: 0 0 8px rgba(0, 245, 212, 0.8);
+        }
+
+        .neon-text-pink {
+            text-shadow: 0 0 8px rgba(255, 0, 127, 0.8);
+        }
+
+        /* Animation en cas d'erreur de saisie */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
+        }
+
+        /* Style de transition glassmorphic */
+        .glass-panel {
+            background: rgba(12, 8, 24, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            width: 90%;
-            max-width: 600px;
-            padding: 40px;
-            position: relative;
-            z-index: 2;
-            text-align: center;
-        }
-
-        /* En-têtes */
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 2.8rem;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, var(--text-main) 30%, var(--primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            color: var(--secondary);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        p.subtitle {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            margin-bottom: 30px;
-        }
-
-        /* Boutons stylisés */
-        .btn {
-            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            border-radius: 12px;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: 1px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px var(--primary-glow);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px var(--primary-glow);
-            filter: brightness(1.1);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: none;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--secondary);
-            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
-            color: var(--secondary);
-        }
-
-        /* Grille des Stages */
-        .stages-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
-            max-height: 350px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        /* Custom Scrollbar pour la liste des niveaux */
-        .stages-grid::-webkit-scrollbar {
-            width: 6px;
-        }
-        .stages-grid::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .stages-grid::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 3px;
-        }
-
-        .stage-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 20px 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .stage-card .stage-num {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .stage-card .stage-status {
-            font-size: 0.9rem;
-            margin-top: 8px;
-            color: var(--text-muted);
-        }
-
-        /* États des cartes de niveau */
-        .stage-card.unlocked {
-            border-color: rgba(6, 182, 212, 0.2);
-            background: rgba(6, 182, 212, 0.03);
-        }
-        .stage-card.unlocked:hover {
-            border-color: var(--secondary);
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(6, 182, 212, 0.15);
-        }
-        .stage-card.completed {
-            border-color: rgba(16, 185, 129, 0.3);
-            background: rgba(16, 185, 129, 0.05);
-        }
-        .stage-card.completed .stage-status {
-            color: var(--success);
-        }
-        .stage-card.locked {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        /* Zone d'affichage du Logo */
-        .logo-frame {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            width: 220px;
-            height: 220px;
-            margin: 0 auto 25px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 10px 25px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease;
-        }
-        .logo-frame img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
         }
 
         /* Barre d'écriture futuriste */
-        .input-group {
-            position: relative;
-            margin-bottom: 25px;
-            width: 100%;
-        }
-
-        .input-bar {
-            width: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            padding: 16px 24px;
-            font-size: 1.2rem;
-            color: var(--text-main);
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 600;
-            text-align: center;
-            outline: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .input-bar:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 20px var(--primary-glow);
-            background: rgba(15, 23, 42, 0.8);
-        }
-
-        /* Feedback d'erreur ou réussite */
-        #feedback {
-            font-size: 1.1rem;
-            font-weight: 700;
-            min-height: 28px;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        /* Bouton de musique discret en coin */
-        .music-control {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
+        .custom-input {
+            background: rgba(5, 2, 12, 0.9);
             transition: all 0.3s ease;
-            z-index: 10;
         }
-        .music-control:hover {
-            background: var(--secondary);
-            border-color: var(--secondary);
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.4);
-            transform: rotate(15deg);
+        .custom-input:focus {
+            border-color: #00f5d4;
+            box-shadow: 0 0 20px rgba(0, 245, 212, 0.4);
         }
 
-        /* Masquage des écrans */
-        .hidden {
-            display: none !important;
+        /* Personnalisation de la barre de défilement */
+        ::-webkit-scrollbar {
+            width: 6px;
         }
-
-        /* Animations */
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-10px); }
-            40%, 80% { transform: translateX(10px); }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
         }
-        .shake {
-            animation: shake 0.4s ease;
-        }
-
-        @keyframes success-pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(16, 185, 129, 0.6); }
-            100% { transform: scale(1); }
-        }
-        .success-glow {
-            animation: success-pulse 0.6s ease;
+        ::-webkit-scrollbar-thumb {
+            background: #ff007f;
+            border-radius: 3px;
         }
     </style>
 </head>
-<body>
+<body class="min-height-screen text-slate-100 flex items-center justify-center p-4 md:p-8 min-h-screen">
 
-    <!-- Lecteur audio : Musique d'ambiance Lo-Fi libre de droit -->
-    <audio id="bg-music" loop preload="auto">
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
-    </audio>
-
-    <button id="music-btn" class="music-control" onclick="toggleMusic()">
-        <i class="fa-solid fa-volume-xmark"></i>
+    <!-- Bouton Audio Flottant -->
+    <button id="audio-toggle" onclick="handleMusicToggle()" class="fixed top-6 right-6 w-12 h-12 rounded-full glass-panel flex items-center justify-center text-xl text-[#00f5d4] transition duration-300 hover:scale-110 border border-[#00f5d4]/40 z-50">
+        <i class="fa-solid fa-volume-xmark" id="audio-icon"></i>
     </button>
 
-    <div class="container">
-        
-        <!-- ÉCRAN : MENU PRINCIPAL -->
-        <div id="menu-screen">
-            <h1>Logo Quiz</h1>
-            <p class="subtitle">Identifiez la marque mystère de chaque niveau</p>
-            <button class="btn" onclick="showStages()">
-                <i class="fa-solid fa-play"></i> Lancer la partie
+    <!-- Boîte de dialogue de Réussite Finale -->
+    <div id="win-modal" class="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
+        <div class="glass-panel neon-border-cyan rounded-3xl p-8 max-w-md w-full text-center">
+            <div class="text-6xl text-[#00f5d4] mb-4 animate-bounce">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <h2 class="font-bold text-3xl mb-3 text-slate-50 tracking-wider" style="font-family: 'Orbitron', sans-serif;">TOUS LES STAGES RÉSOLUS !</h2>
+            <p class="text-slate-300 mb-6">Félicitations ! Vous avez prouvé que votre connaissance des marques est inégalée.</p>
+            <button onclick="resetGameProgression()" class="w-full py-3 bg-[#00f5d4] text-slate-950 font-bold rounded-xl hover:scale-105 active:scale-95 transition-all duration-200 uppercase tracking-widest shadow-lg shadow-[#00f5d4]/20">
+                Recommencer à zéro
             </button>
-        </div>
-
-        <!-- ÉCRAN : SÉLECTION DE STAGE -->
-        <div id="stage-screen" class="hidden">
-            <h2>Sélection de Niveau</h2>
-            <div class="stages-grid" id="stages-grid">
-                <!-- Généré dynamiquement en JS -->
-            </div>
-            <button class="btn btn-secondary" onclick="showMenu()">
-                <i class="fa-solid fa-arrow-left"></i> Menu Principal
-            </button>
-        </div>
-
-        <!-- ÉCRAN : INTERACTION DU JEU -->
-        <div id="game-screen" class="hidden">
-            <h2 id="game-stage-title">Niveau X</h2>
-            
-            <div class="logo-frame" id="logo-frame">
-                <img id="logo-image" src="" alt="Logo à deviner">
-            </div>
-
-            <div id="feedback"></div>
-
-            <div class="input-group">
-                <input type="text" class="input-bar" id="answer-input" placeholder="ÉCRIS TA RÉPONSE ICI..." autocomplete="off">
-            </div>
-
-            <div style="display: flex; gap: 15px; justify-content: center;">
-                <button class="btn btn-secondary" onclick="showStages()">
-                    <i class="fa-solid fa-grip"></i> Niveaux
-                </button>
-                <button class="btn" onclick="checkAnswer()">
-                    <i class="fa-solid fa-circle-check"></i> Valider
-                </button>
-            </div>
         </div>
     </div>
 
+    <!-- Conteneur principal de l'application -->
+    <div class="w-full max-w-lg glass-panel rounded-3xl p-6 md:p-8 shadow-2xl relative z-10">
+        
+        <!-- ÉCRAN : MENU PRINCIPAL -->
+        <div id="screen-menu" class="space-y-6 text-center">
+            <div class="mb-4">
+                <span class="px-3 py-1 bg-[#ff007f]/20 border border-[#ff007f]/40 rounded-full text-[#ff007f] text-xs font-bold uppercase tracking-widest">Premium Edition</span>
+            </div>
+            <h1 class="text-5xl font-black title-neon text-[#ff007f] tracking-tight py-2 uppercase">Logo Quiz</h1>
+            <p class="text-slate-400 text-lg max-w-sm mx-auto">Sauras-tu deviner le logo unique de chaque niveau ? Un défi de taille t'attend !</p>
+            
+            <div class="pt-4">
+                <button onclick="changeScreen('screen-stages')" class="w-full md:w-auto px-10 py-4 bg-gradient-to-r from-[#ff007f] to-[#b30059] text-white font-bold text-lg rounded-xl transition duration-300 hover:shadow-lg hover:shadow-[#ff007f]/30 hover:scale-[1.03] active:scale-95 flex items-center justify-center gap-3 mx-auto">
+                    <i class="fa-solid fa-play"></i> JOUER MAINTENANT
+                </button>
+            </div>
+        </div>
+
+        <!-- ÉCRAN : LISTE DES NIVEAUX (STAGES) -->
+        <div id="screen-stages" class="hidden space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <button onclick="changeScreen('screen-menu')" class="text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-chevron-left"></i> Retour
+                </button>
+                <h2 class="text-xl font-bold uppercase tracking-wider text-[#00f5d4] neon-text-cyan" style="font-family: 'Orbitron', sans-serif;">Sélection Stage</h2>
+                <div class="w-10"></div>
+            </div>
+
+            <div id="stages-container" class="grid grid-cols-3 gap-4 py-2">
+                <!-- Les cartes de niveau seront générées ici dynamiquement -->
+            </div>
+        </div>
+
+        <!-- ÉCRAN : JEU EN COURS -->
+        <div id="screen-game" class="hidden space-y-6">
+            
+            <!-- Barre d'état du niveau -->
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <button onclick="changeScreen('screen-stages')" class="text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-chevron-left"></i> Niveaux
+                </button>
+                <span id="game-title" class="text-lg font-bold text-[#ff007f] neon-text-pink uppercase tracking-widest" style="font-family: 'Orbitron', sans-serif;">Stage 1</span>
+                <div class="w-10"></div>
+            </div>
+
+            <!-- Tentatives / Coeurs -->
+            <div class="flex flex-col items-center justify-center space-y-2">
+                <span class="text-xs text-slate-400 uppercase tracking-wider">Tentatives restantes</span>
+                <div id="hearts-indicator" class="flex gap-3 text-2xl text-[#ff007f]">
+                    <!-- Rempli dynamiquement -->
+                </div>
+            </div>
+
+            <!-- Cadre d'affichage du Logo -->
+            <div id="logo-wrapper" class="w-48 h-48 mx-auto bg-white rounded-2xl p-4 flex items-center justify-center transition-all duration-300 border border-slate-800">
+                <img id="logo-img" src="" alt="Quiz Logo" class="max-w-full max-h-full object-contain pointer-events-none select-none">
+            </div>
+
+            <!-- Message d'alerte / Feedback / Compte à rebours de blocage -->
+            <div id="feedback-panel" class="text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide">
+                <!-- Messages injectés dynamiquement -->
+            </div>
+
+            <!-- Formulaire de saisie -->
+            <div class="space-y-3">
+                <input type="text" id="answer-input" autocomplete="off" placeholder="Entrez le nom de la marque..." class="custom-input w-full px-5 py-4 text-center rounded-xl border border-slate-800 text-lg uppercase tracking-widest text-white font-bold outline-none">
+                <button id="submit-btn" onclick="submitAnswer()" class="w-full py-4 bg-[#ff007f] hover:bg-[#ff007f]/90 text-white font-bold rounded-xl transition-all duration-200 uppercase tracking-widest hover:scale-[1.01] active:scale-95 shadow-lg shadow-[#ff007f]/20">
+                    Valider la réponse
+                </button>
+            </div>
+        </div>
+
+    </div>
+
     <script>
-        // Base de données avec 1 unique quiz par Stage
-        // Utilisation d'adresses SVG fiables de Wikimedia. Remplaçables par tes propres chemins (ex: "images/mon_image.png")
-        const gameData = [
-            { stage: 1, logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg", answer: "google" },
-            { stage: 2, logo: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg", answer: "apple" },
-            { stage: 3, logo: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg", answer: "nike" },
-            { stage: 4, logo: "https://upload.wikimedia.org/wikipedia/commons/0/0f/Pepsi_logo_2014.svg", answer: "pepsi" },
-            { stage: 5, logo: "https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg", answer: "mcdonalds" },
-            { stage: 6, logo: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Starbucks_Corporation_Logo_2011.svg", answer: "starbucks" },
-            { stage: 7, logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg", answer: "bmw" },
-            { stage: 8, logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg", answer: "amazon" },
-            { stage: 9, logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg", answer: "netflix" }
+        // Liste complète des niveaux du jeu. 1 Quiz par stage avec des logos stables de Wikimedia
+        const gameStages = [
+            { id: 1, name: "Stage 1", answer: "nike", image: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" },
+            { id: 2, name: "Stage 2", answer: "apple", image: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" },
+            { id: 3, name: "Stage 3", answer: "google", image: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" },
+            { id: 4, name: "Stage 4", answer: "pepsi", image: "https://upload.wikimedia.org/wikipedia/commons/0/0f/Pepsi_logo_2014.svg" },
+            { id: 5, name: "Stage 5", answer: "mcdonalds", image: "https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" },
+            { id: 6, name: "Stage 6", answer: "starbucks", image: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Starbucks_Corporation_Logo_2011.svg" },
+            { id: 7, name: "Stage 7", answer: "bmw", image: "https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg" },
+            { id: 8, name: "Stage 8", answer: "amazon", image: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" },
+            { id: 9, name: "Stage 9", answer: "netflix", image: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" }
         ];
 
-        let currentStageIndex = 0;
-        let musicPlaying = false;
+        // Variables d'état global du jeu
+        let activeStageIndex = 0;
+        let livesLeft = 3;
+        let cooldownTimer = null;
+        let synth = null;
+        let synthLoop = null;
+        let audioContextInitialized = false;
+        let musicActive = false;
 
-        // Écrans & Éléments
-        const menuScreen = document.getElementById('menu-screen');
-        const stageScreen = document.getElementById('stage-screen');
-        const gameScreen = document.getElementById('game-screen');
-        const stagesGrid = document.getElementById('stages-grid');
-        const logoImage = document.getElementById('logo-image');
-        const logoFrame = document.getElementById('logo-frame');
-        const answerInput = document.getElementById('answer-input');
-        const feedback = document.getElementById('feedback');
-        const bgMusic = document.getElementById('bg-music');
-        const musicBtn = document.getElementById('music-btn');
+        // Change l'écran actuel avec animation visuelle légère
+        function changeScreen(screenId) {
+            document.getElementById('screen-menu').classList.add('hidden');
+            document.getElementById('screen-stages').classList.add('hidden');
+            document.getElementById('screen-game').classList.add('hidden');
 
-        // Initialisation de la progression sauvegardée
-        function getUnlockedStage() {
-            return parseInt(localStorage.getItem('logoQuizMaxStage')) || 1;
-        }
+            document.getElementById(screenId).classList.remove('hidden');
 
-        function unlockNextStage(stageNum) {
-            const currentMax = getUnlockedStage();
-            if (stageNum > currentMax) {
-                localStorage.setItem('logoQuizMaxStage', stageNum);
+            if (screenId === 'screen-stages') {
+                renderStagesMenu();
             }
         }
 
-        // Navigation
-        function showMenu() {
-            menuScreen.classList.remove('hidden');
-            stageScreen.classList.add('hidden');
-            gameScreen.classList.add('hidden');
+        // Renvoie le niveau de déblocage maximal enregistré dans le navigateur (Local Storage)
+        function getMaxUnlockedStage() {
+            return parseInt(localStorage.getItem('logo_quiz_max_stage')) || 1;
         }
 
-        function showStages() {
-            menuScreen.classList.add('hidden');
-            stageScreen.classList.remove('hidden');
-            gameScreen.classList.add('hidden');
-            renderStagesGrid();
+        // Enregistre le déblocage d'un nouveau niveau
+        function unlockNextStage(stageId) {
+            const currentMax = getMaxUnlockedStage();
+            if (stageId > currentMax) {
+                localStorage.setItem('logo_quiz_max_stage', stageId);
+            }
         }
 
-        // Génère dynamiquement le sélecteur de niveaux
-        function renderStagesGrid() {
-            stagesGrid.innerHTML = '';
-            const maxUnlocked = getUnlockedStage();
+        // Renvoie l'état résolu d'un niveau spécifique
+        function isStageCompleted(stageId) {
+            return localStorage.getItem(`logo_quiz_stage_${stageId}_completed`) === 'true';
+        }
 
-            gameData.forEach((data, index) => {
-                const card = document.createElement('div');
-                card.className = 'stage-card';
-                
-                const isCompleted = localStorage.getItem(`stage_${data.stage}_done`) === "true";
-                const isUnlocked = data.stage <= maxUnlocked;
+        // Marque un niveau comme terminé
+        function setStageCompleted(stageId) {
+            localStorage.setItem(`logo_quiz_stage_${stageId}_completed`, 'true');
+        }
 
-                if (isCompleted) {
-                    card.classList.add('completed');
-                    card.innerHTML = `
-                        <div class="stage-num">${data.stage}</div>
-                        <div class="stage-status"><i class="fa-solid fa-circle-check"></i> Fini</div>
+        // Génère le menu de sélection de niveau
+        function renderStagesMenu() {
+            const container = document.getElementById('stages-container');
+            container.innerHTML = '';
+
+            const maxUnlocked = getMaxUnlockedStage();
+
+            gameStages.forEach((stage, idx) => {
+                const btn = document.createElement('button');
+                const completed = isStageCompleted(stage.id);
+                const unlocked = stage.id <= maxUnlocked;
+
+                btn.className = "flex flex-col items-center justify-center p-4 rounded-xl border transition-all duration-300 ";
+
+                if (completed) {
+                    btn.className += "bg-[#00f5d4]/10 border-[#00f5d4]/40 hover:border-[#00f5d4] text-[#00f5d4]";
+                    btn.innerHTML = `
+                        <span class="font-bold text-lg" style="font-family: 'Orbitron', sans-serif;">${stage.id}</span>
+                        <span class="text-[10px] mt-1 font-semibold tracking-wider uppercase"><i class="fa-solid fa-circle-check"></i> Fini</span>
                     `;
-                } else if (isUnlocked) {
-                    card.classList.add('unlocked');
-                    card.innerHTML = `
-                        <div class="stage-num">${data.stage}</div>
-                        <div class="stage-status"><i class="fa-solid fa-lock-open"></i> Prêt</div>
+                } else if (unlocked) {
+                    btn.className += "bg-[#ff007f]/5 border-[#ff007f]/30 hover:border-[#ff007f] text-[#ff007f]";
+                    btn.innerHTML = `
+                        <span class="font-bold text-lg" style="font-family: 'Orbitron', sans-serif;">${stage.id}</span>
+                        <span class="text-[10px] mt-1 font-semibold tracking-wider uppercase"><i class="fa-solid fa-lock-open"></i> Prêt</span>
                     `;
                 } else {
-                    card.classList.add('locked');
-                    card.innerHTML = `
-                        <div class="stage-num" style="color: var(--text-muted);">${data.stage}</div>
-                        <div class="stage-status"><i class="fa-solid fa-lock"></i></div>
+                    btn.className += "bg-slate-900/40 border-slate-800 text-slate-600 cursor-not-allowed";
+                    btn.innerHTML = `
+                        <span class="font-bold text-lg" style="font-family: 'Orbitron', sans-serif;">${stage.id}</span>
+                        <span class="text-[10px] mt-1 font-semibold tracking-wider"><i class="fa-solid fa-lock"></i> Verrouillé</span>
                     `;
                 }
 
-                if (isUnlocked) {
-                    card.onclick = () => launchGame(index);
+                if (unlocked) {
+                    btn.onclick = () => launchQuiz(idx);
                 }
 
-                stagesGrid.appendChild(card);
+                container.appendChild(btn);
             });
         }
 
-        // Lancement d'un niveau
-        function launchGame(index) {
-            currentStageIndex = index;
-            stageScreen.classList.add('hidden');
-            gameScreen.classList.remove('hidden');
+        // Lance le jeu pour un stage particulier
+        function launchQuiz(idx) {
+            initAudio(); // Initialisation paresseuse de Tone.js lors du clic utilisateur
+            activeStageIndex = idx;
+            livesLeft = 3;
 
-            // Lancer la musique au premier clic sur l'écran
-            if (!musicPlaying) {
-                toggleMusic();
-            }
-
-            document.getElementById('game-stage-title').innerText = `Niveau ${gameData[index].stage}`;
-            logoImage.src = gameData[index].logo;
-            answerInput.value = '';
-            feedback.innerText = '';
-            feedback.style.color = 'transparent';
-            answerInput.focus();
+            changeScreen('screen-game');
+            updateGameUI();
+            checkAndApplyCooldown();
         }
 
-        // Logique de validation
-        function checkAnswer() {
-            const currentStage = gameData[currentStageIndex];
-            const userAnswer = answerInput.value.trim().toLowerCase();
-            const correctAnswer = currentStage.answer.toLowerCase();
+        // Met à jour les éléments de l'interface graphique de jeu
+        function updateGameUI() {
+            const currentStage = gameStages[activeStageIndex];
+            document.getElementById('game-title').innerText = currentStage.name;
+            document.getElementById('logo-img').src = currentStage.image;
+            document.getElementById('answer-input').value = '';
+            document.getElementById('logo-wrapper').className = "w-48 h-48 mx-auto bg-white rounded-2xl p-4 flex items-center justify-center transition-all duration-300 border border-slate-800";
+            
+            updateHeartsUI();
+        }
 
-            // Supprimer d'éventuels effets précédents
-            logoFrame.classList.remove('shake', 'success-glow');
+        // Met à jour l'affichage des cœurs / tentatives restantes
+        function updateHeartsUI() {
+            const container = document.getElementById('hearts-indicator');
+            container.innerHTML = '';
+            for (let i = 0; i < 3; i++) {
+                const heart = document.createElement('i');
+                if (i < livesLeft) {
+                    heart.className = "fa-solid fa-heart neon-text-pink scale-100 transition duration-300";
+                } else {
+                    heart.className = "fa-solid fa-heart-broken text-slate-800 scale-90 transition duration-300";
+                }
+                container.appendChild(heart);
+            }
+        }
+
+        // Enregistre l'échec et lance le compte à rebours de 5 min dans LocalStorage
+        function startBlockageCooldown() {
+            const cooldownDuration = 5 * 60 * 1000; // 5 minutes en millisecondes
+            const unlockTime = Date.now() + cooldownDuration;
+            localStorage.setItem('logo_quiz_cooldown_end', unlockTime);
+            
+            playToneEffect("lock");
+            checkAndApplyCooldown();
+        }
+
+        // Vérifie si l'utilisateur est présentement bloqué
+        function checkAndApplyCooldown() {
+            clearInterval(cooldownTimer);
+            const cooldownEnd = localStorage.getItem('logo_quiz_cooldown_end');
+            
+            if (cooldownEnd) {
+                const timeLeft = parseInt(cooldownEnd) - Date.now();
+                
+                if (timeLeft > 0) {
+                    // Désactivation des entrées
+                    document.getElementById('answer-input').disabled = true;
+                    document.getElementById('submit-btn').disabled = true;
+                    document.getElementById('submit-btn').className = "w-full py-4 bg-slate-800 text-slate-500 font-bold rounded-xl cursor-not-allowed uppercase tracking-widest";
+                    livesLeft = 0;
+                    updateHeartsUI();
+
+                    runCooldownCountdown();
+                    return true;
+                } else {
+                    // Le temps est écoulé, on nettoie
+                    localStorage.removeItem('logo_quiz_cooldown_end');
+                    resetUserAttempts();
+                }
+            }
+            
+            // Activation normale
+            document.getElementById('answer-input').disabled = false;
+            document.getElementById('submit-btn').disabled = false;
+            document.getElementById('submit-btn').className = "w-full py-4 bg-[#ff007f] hover:bg-[#ff007f]/90 text-white font-bold rounded-xl transition-all duration-200 uppercase tracking-widest hover:scale-[1.01] active:scale-95 shadow-lg shadow-[#ff007f]/20";
+            return false;
+        }
+
+        // Démarre la boucle visuelle du décompte
+        function runCooldownCountdown() {
+            const panel = document.getElementById('feedback-panel');
+            panel.className = "text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide bg-amber-500/10 border border-amber-500/40 text-amber-500";
+
+            cooldownTimer = setInterval(() => {
+                const cooldownEnd = localStorage.getItem('logo_quiz_cooldown_end');
+                if (!cooldownEnd) {
+                    clearInterval(cooldownTimer);
+                    resetUserAttempts();
+                    return;
+                }
+
+                const remaining = parseInt(cooldownEnd) - Date.now();
+
+                if (remaining <= 0) {
+                    clearInterval(cooldownTimer);
+                    localStorage.removeItem('logo_quiz_cooldown_end');
+                    resetUserAttempts();
+                } else {
+                    const minutes = Math.floor(remaining / 60000);
+                    const seconds = Math.floor((remaining % 60000) / 1000);
+                    const formattedSec = seconds < 10 ? '0' + seconds : seconds;
+                    panel.innerHTML = `<span class="animate-pulse"><i class="fa-solid fa-hourglass-half mr-2"></i> Bloqué ! Réessayez dans ${minutes}:${formattedSec}</span>`;
+                }
+            }, 1000);
+        }
+
+        // Restaure les tentatives après blocage
+        function resetUserAttempts() {
+            livesLeft = 3;
+            updateHeartsUI();
+            
+            // Réactivation des entrées
+            document.getElementById('answer-input').disabled = false;
+            document.getElementById('submit-btn').disabled = false;
+            document.getElementById('submit-btn').className = "w-full py-4 bg-[#ff007f] hover:bg-[#ff007f]/90 text-white font-bold rounded-xl transition-all duration-200 uppercase tracking-widest hover:scale-[1.01] active:scale-95 shadow-lg shadow-[#ff007f]/20";
+            
+            const panel = document.getElementById('feedback-panel');
+            panel.className = "text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide text-transparent";
+            panel.innerText = "";
+            document.getElementById('answer-input').focus();
+        }
+
+        // Gère la soumission et la vérification de la réponse saisie
+        function submitAnswer() {
+            const activeCooldown = checkAndApplyCooldown();
+            if (activeCooldown) return;
+
+            const inputEl = document.getElementById('answer-input');
+            const wrapperEl = document.getElementById('logo-wrapper');
+            const panel = document.getElementById('feedback-panel');
+            
+            const userAnswer = inputEl.value.trim().toLowerCase();
+            const currentStage = gameStages[activeStageIndex];
+            const correctAnswer = currentStage.answer;
+
+            // Retrait des classes de retour d'effet
+            wrapperEl.classList.remove('animate-shake', 'neon-border-pink', 'neon-border-cyan');
 
             if (userAnswer === correctAnswer) {
-                // Succès
-                feedback.style.color = 'var(--success)';
-                feedback.innerText = 'Excellent ! Niveau complété.';
-                logoFrame.classList.add('success-glow');
+                // VICTOIRE DU NIVEAU
+                setStageCompleted(currentStage.id);
+                unlockNextStage(currentStage.id + 1);
 
-                // Enregistrer la complétion & débloquer le niveau suivant
-                localStorage.setItem(`stage_${currentStage.stage}_done`, "true");
-                unlockNextStage(currentStage.stage + 1);
+                wrapperEl.classList.add('neon-border-cyan');
+                panel.className = "text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide bg-[#00f5d4]/10 border border-[#00f5d4]/40 text-[#00f5d4] neon-text-cyan";
+                panel.innerHTML = `<i class="fa-solid fa-circle-check mr-2"></i> Excellente réponse !`;
+
+                playToneEffect("success");
 
                 setTimeout(() => {
-                    if (currentStageIndex + 1 < gameData.length) {
-                        launchGame(currentStageIndex + 1);
+                    panel.innerHTML = "";
+                    panel.className = "text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide text-transparent";
+                    
+                    if (activeStageIndex + 1 < gameStages.length) {
+                        launchQuiz(activeStageIndex + 1);
                     } else {
-                        alert("Félicitations ! Vous avez complété tous les niveaux de Logo Quiz !");
-                        showStages();
+                        // Fin complète du jeu
+                        document.getElementById('win-modal').classList.remove('hidden');
+                        playToneEffect("win");
                     }
                 }, 1500);
 
             } else {
-                // Échec
-                feedback.style.color = 'var(--error)';
-                feedback.innerText = 'Réponse incorrecte. Essaie encore !';
-                logoFrame.classList.add('shake');
+                // ERREUR
+                livesLeft--;
+                updateHeartsUI();
                 
-                // Retirer la classe de secousse pour pouvoir la relancer après
+                wrapperEl.classList.add('animate-shake', 'neon-border-pink');
+                playToneEffect("wrong");
+
+                if (livesLeft <= 0) {
+                    startBlockageCooldown();
+                } else {
+                    panel.className = "text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide bg-[#ff007f]/10 border border-[#ff007f]/40 text-[#ff007f] neon-text-pink";
+                    panel.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-2"></i> Mauvaise réponse ! Il vous reste ${livesLeft} vie(s).`;
+                }
+
                 setTimeout(() => {
-                    logoFrame.classList.remove('shake');
+                    wrapperEl.classList.remove('animate-shake');
                 }, 400);
             }
         }
 
-        // Détection de la touche Entrée pour valider directement
-        answerInput.addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                checkAnswer();
+        // Permet d'appuyer sur Entrée pour valider directement
+        document.getElementById('answer-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitAnswer();
             }
         });
 
-        // Gestion de la Musique d'ambiance
-        function toggleMusic() {
-            if (musicPlaying) {
-                bgMusic.pause();
-                musicBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
-                musicBtn.style.background = 'rgba(255, 255, 255, 0.05)';
+        // Supprime la progression locale
+        function resetGameProgression() {
+            localStorage.clear();
+            document.getElementById('win-modal').classList.add('hidden');
+            changeScreen('screen-menu');
+        }
+
+        // Initialisation de l'Audio en temps réel via Tone.js (sans URLs MP3 externes instables)
+        function initAudio() {
+            if (audioContextInitialized) return;
+
+            // Synthétiseur pour les effets sonores
+            synth = new Tone.Synth({
+                oscillator: { type: 'sine' },
+                envelope: { attack: 0.05, decay: 0.1, sustain: 0.3, release: 0.8 }
+            }).toDestination();
+
+            // Synthétiseur mélodique d'ambiance Lo-Fi pour la musique
+            const musicSynth = new Tone.PolySynth(Tone.Synth, {
+                oscillator: { type: 'triangle' },
+                envelope: { attack: 1.2, decay: 1, sustain: 0.7, release: 2 }
+            }).toDestination();
+            musicSynth.volume.value = -16; // Baisser le volume de fond pour le confort de jeu
+
+            // Séquenceur d'accords cyberpunk pour l'ambiance
+            const chords = [
+                ["D3", "F3", "A3"],
+                ["G3", "A#3", "D4"],
+                ["C3", "E3", "G3"],
+                ["A3", "C4", "E4"]
+            ];
+            
+            let chordIndex = 0;
+            synthLoop = new Tone.Loop(time => {
+                musicSynth.triggerAttackRelease(chords[chordIndex], "3n", time);
+                chordIndex = (chordIndex + 1) % chords.length;
+            }, "2m");
+
+            audioContextInitialized = true;
+        }
+
+        // Contrôle le bouton audio On/Off
+        function handleMusicToggle() {
+            initAudio(); // Garantie d'activation suite à une interaction utilisateur directe
+
+            const icon = document.getElementById('audio-icon');
+            const btn = document.getElementById('audio-toggle');
+
+            if (musicActive) {
+                Tone.Transport.stop();
+                icon.className = "fa-solid fa-volume-xmark";
+                btn.style.borderColor = "rgba(0, 245, 212, 0.4)";
+                btn.style.color = "#00f5d4";
+                musicActive = false;
             } else {
-                bgMusic.volume = 0.3; // Volume doux
-                bgMusic.play().then(() => {
-                    musicBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-                    musicBtn.style.background = 'var(--secondary)';
-                }).catch(e => {
-                    console.log("Le navigateur a bloqué le démarrage de l'audio. Jouez pour l'activer.");
+                Tone.start();
+                Tone.Transport.start();
+                synthLoop.start(0);
+                icon.className = "fa-solid fa-volume-high";
+                btn.style.borderColor = "#00f5d4";
+                btn.style.color = "#030008";
+                btn.className = "fixed top-6 right-6 w-12 h-12 rounded-full glass-panel flex items-center justify-center text-xl bg-[#00f5d4] transition duration-300 hover:scale-110 z-50";
+                musicActive = true;
+            }
+        }
+
+        // Joue des effets sonores synthétisés selon la situation de jeu
+        function playToneEffect(type) {
+            if (!audioContextInitialized) return;
+
+            // Permet de s'assurer que Tone est en cours d'exécution
+            Tone.start();
+
+            if (type === "success") {
+                synth.triggerAttackRelease("C5", "16n");
+                setTimeout(() => synth.triggerAttackRelease("E5", "16n"), 100);
+                setTimeout(() => synth.triggerAttackRelease("G5", "8n"), 200);
+            } else if (type === "wrong") {
+                synth.triggerAttackRelease("F2", "8n");
+                setTimeout(() => synth.triggerAttackRelease("C2", "4n"), 120);
+            } else if (type === "lock") {
+                // Son dramatique de descente
+                synth.triggerAttackRelease("G3", "8n");
+                setTimeout(() => synth.triggerAttackRelease("E3", "8n"), 150);
+                setTimeout(() => synth.triggerAttackRelease("C3", "2n"), 300);
+            } else if (type === "win") {
+                // Arpège de fanfare triomphante
+                const notes = ["C4", "E4", "G4", "C5", "E5", "G5", "C6"];
+                notes.forEach((note, index) => {
+                    setTimeout(() => {
+                        synth.triggerAttackRelease(note, "8n");
+                    }, index * 150);
                 });
             }
-            musicPlaying = !musicPlaying;
+        }
+
+        // Initialisation lors du lancement initial de la page
+        window.onload = function() {
+            checkAndApplyCooldown();
         }
     </script>
 </body>
