@@ -13,7 +13,7 @@
 
     <style>
         :root {
-            --primary-neon: #ff007f;
+            --primary-neon: #00f5d4;
             --secondary-neon: #00f5d4;
             --bg-dark: #030008;
         }
@@ -22,18 +22,18 @@
             font-family: 'Rajdhani', sans-serif;
             background-color: var(--bg-dark);
             background-image: 
-                radial-gradient(at 10% 20%, rgba(255, 0, 127, 0.15) 0px, transparent 40%),
+                radial-gradient(at 10% 20%, rgba(0, 245, 212, 0.15) 0px, transparent 40%),
                 radial-gradient(at 90% 80%, rgba(0, 245, 212, 0.15) 0px, transparent 40%);
         }
         
         .title-neon {
             font-family: 'Orbitron', sans-serif;
-            text-shadow: 0 0 10px rgba(255, 0, 127, 0.8), 0 0 20px rgba(255, 0, 127, 0.4);
+            text-shadow: 0 0 10px rgba(0, 245, 212, 0.8), 0 0 20px rgba(0, 245, 212, 0.4);
         }
 
-        .neon-border-pink {
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4), inset 0 0 15px rgba(255, 0, 127, 0.2);
-            border: 2px solid #ff007f;
+        .neon-border-blue {
+            box-shadow: 0 0 15px rgba(0, 245, 212, 0.4), inset 0 0 15px rgba(0, 245, 212, 0.2);
+            border: 2px solid #00f5d4;
         }
 
         .neon-border-cyan {
@@ -45,8 +45,8 @@
             text-shadow: 0 0 8px rgba(0, 245, 212, 0.8);
         }
 
-        .neon-text-pink {
-            text-shadow: 0 0 8px rgba(255, 0, 127, 0.8);
+        .neon-text-blue {
+            text-shadow: 0 0 8px rgba(0, 245, 212, 0.8);
         }
 
         /* Animations pour les interactions de jeu */
@@ -83,7 +83,7 @@
             background: rgba(0, 0, 0, 0.3);
         }
         ::-webkit-scrollbar-thumb {
-            background: #ff007f;
+            background: #00f5d4;
             border-radius: 4px;
         }
     </style>
@@ -123,13 +123,13 @@
         <!-- ÉCRAN : MENU PRINCIPAL -->
         <div id="screen-menu" class="space-y-6 text-center">
             <div class="mb-4">
-                <span class="px-3 py-1 bg-[#ff007f]/20 border border-[#ff007f]/40 rounded-full text-[#ff007f] text-xs font-bold uppercase tracking-widest">3 Catégories - 30 Stages</span>
+                <span class="px-3 py-1 bg-[#00f5d4]/20 border border-[#00f5d4]/40 rounded-full text-[#00f5d4] text-xs font-bold uppercase tracking-widest">3 Catégories - 90 Stages</span>
             </div>
-            <h1 class="text-4xl md:text-5xl font-black title-neon text-[#ff007f] tracking-tight py-2 uppercase">Logo Quiz</h1>
+            <h1 class="text-4xl md:text-5xl font-black title-neon text-[#00f5d4] tracking-tight py-2 uppercase">Logo Quiz</h1>
             <p class="text-slate-400 text-lg max-w-sm mx-auto">Prêt à tester votre mémoire visuelle ? Choisissez parmi nos catégories de marques.</p>
             
             <div class="pt-4">
-                <button onclick="changeScreen('screen-categories')" class="w-full md:w-auto px-10 py-4 bg-gradient-to-r from-[#ff007f] to-[#b30059] text-white font-bold text-lg rounded-xl transition duration-300 hover:shadow-lg hover:shadow-[#ff007f]/30 hover:scale-[1.03] active:scale-95 flex items-center justify-center gap-3 mx-auto uppercase">
+                <button onclick="changeScreen('screen-categories')" class="w-full md:w-auto px-10 py-4 bg-gradient-to-r from-[#00f5d4] to-[#00a38d] text-slate-950 font-bold text-lg rounded-xl transition duration-300 hover:shadow-lg hover:shadow-[#00f5d4]/30 hover:scale-[1.03] active:scale-95 flex items-center justify-center gap-3 mx-auto uppercase">
                     <i class="fa-solid fa-play"></i> Commencer le quiz
                 </button>
             </div>
@@ -193,21 +193,21 @@
                 <button onclick="changeScreen('screen-stages')" class="text-slate-400 hover:text-white transition flex items-center gap-2">
                     <i class="fa-solid fa-chevron-left"></i> Stages
                 </button>
-                <span id="game-title" class="text-lg font-bold text-[#ff007f] neon-text-pink uppercase tracking-widest" style="font-family: 'Orbitron', sans-serif;">Stage 1</span>
+                <span id="game-title" class="text-lg font-bold text-[#00f5d4] neon-text-blue uppercase tracking-widest" style="font-family: 'Orbitron', sans-serif;">Stage 1</span>
                 <div class="w-10"></div>
             </div>
 
             <!-- Tentatives restantes (Affichage de 3 Cœurs) -->
             <div class="flex flex-col items-center justify-center space-y-2">
                 <span class="text-xs text-slate-400 uppercase tracking-wider">Vies restantes</span>
-                <div id="hearts-indicator" class="flex gap-3 text-2xl text-[#ff007f]">
+                <div id="hearts-indicator" class="flex gap-3 text-2xl text-[#00f5d4]">
                     <!-- Les icônes de cœurs de vie s'insèrent ici -->
                 </div>
             </div>
 
             <!-- Cadre d'affichage du Logo à deviner -->
             <div id="logo-wrapper" class="w-48 h-48 mx-auto bg-white rounded-2xl p-4 flex items-center justify-center transition-all duration-300 border border-slate-800">
-                <img id="logo-img" src="" alt="Quiz Logo" class="max-w-full max-h-full object-contain pointer-events-none select-none animate-pulse">
+                <img id="logo-img" src="" alt="Quiz Logo" onerror="this.src='https://placehold.co/200x200/030008/00f5d4?text=?'" class="max-w-full max-h-full object-contain pointer-events-none select-none animate-pulse">
             </div>
 
             <!-- Zone de feedback dynamique / Compte à rebours de pénalité -->
@@ -218,7 +218,7 @@
             <!-- Formulaire de saisie utilisateur -->
             <div class="space-y-3">
                 <input type="text" id="answer-input" autocomplete="off" placeholder="Nom de la marque..." class="custom-input w-full px-5 py-4 text-center rounded-xl border border-slate-800 text-lg uppercase tracking-widest text-white font-bold outline-none">
-                <button id="submit-btn" onclick="submitAnswer()" class="w-full py-4 bg-[#ff007f] hover:bg-[#ff007f]/90 text-white font-bold rounded-xl transition-all duration-200 uppercase tracking-widest hover:scale-[1.01] active:scale-95 shadow-lg shadow-[#ff007f]/20">
+                <button id="submit-btn" onclick="submitAnswer()" class="w-full py-4 bg-[#00f5d4] hover:bg-[#00f5d4]/90 text-slate-950 font-bold rounded-xl transition-all duration-200 uppercase tracking-widest hover:scale-[1.01] active:scale-95 shadow-lg shadow-[#00f5d4]/20">
                     Valider la réponse
                 </button>
             </div>
@@ -227,7 +227,7 @@
     </div>
 
     <script>
-        // Base de données structurée en 3 catégories de 10 niveaux chacune
+        // Base de données structurée en 3 catégories de 30 niveaux chacune
         const gameCategories = {
             restaurant: [
                 { id: 1, name: "Stage 1", answer: "mcdonalds", image: "https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" },
@@ -239,7 +239,27 @@
                 { id: 7, name: "Stage 7", answer: "kfc", image: "https://upload.wikimedia.org/wikipedia/commons/b/bf/KFC_logo.svg" },
                 { id: 8, name: "Stage 8", answer: "pizza hut", image: "https://upload.wikimedia.org/wikipedia/commons/9/98/Pizza_Hut_logo.svg" },
                 { id: 9, name: "Stage 9", answer: "subway", image: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Subway_2016_logo.svg" },
-                { id: 10, name: "Stage 10", answer: "dunkin", image: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Dunkin%27_Donuts_logo.svg" }
+                { id: 10, name: "Stage 10", answer: "dunkin", image: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Dunkin%27_Donuts_logo.svg" },
+                { id: 11, name: "Stage 11", answer: "taco bell", image: "https://logo.clearbit.com/tacobell.com" },
+                { id: 12, name: "Stage 12", answer: "wendys", image: "https://logo.clearbit.com/wendys.com" },
+                { id: 13, name: "Stage 13", answer: "chipotle", image: "https://logo.clearbit.com/chipotle.com" },
+                { id: 14, name: "Stage 14", answer: "in n out", image: "https://logo.clearbit.com/in-n-out.com" },
+                { id: 15, name: "Stage 15", answer: "chick fil a", image: "https://logo.clearbit.com/chick-fil-a.com" },
+                { id: 16, name: "Stage 16", answer: "popeyes", image: "https://logo.clearbit.com/popeyes.com" },
+                { id: 17, name: "Stage 17", answer: "dairy queen", image: "https://logo.clearbit.com/dairyqueen.com" },
+                { id: 18, name: "Stage 18", answer: "sonic", image: "https://logo.clearbit.com/sonicdrivein.com" },
+                { id: 19, name: "Stage 19", answer: "arbys", image: "https://logo.clearbit.com/arbys.com" },
+                { id: 20, name: "Stage 20", answer: "panera", image: "https://logo.clearbit.com/panerabread.com" },
+                { id: 21, name: "Stage 21", answer: "shake shack", image: "https://logo.clearbit.com/shakeshack.com" },
+                { id: 22, name: "Stage 22", answer: "five guys", image: "https://logo.clearbit.com/fiveguys.com" },
+                { id: 23, name: "Stage 23", answer: "hardees", image: "https://logo.clearbit.com/hardees.com" },
+                { id: 24, name: "Stage 24", answer: "quiznos", image: "https://logo.clearbit.com/quiznos.com" },
+                { id: 25, name: "Stage 25", answer: "jack in the box", image: "https://logo.clearbit.com/jackinthebox.com" },
+                { id: 26, name: "Stage 26", answer: "tim hortons", image: "https://logo.clearbit.com/timhortons.com" },
+                { id: 27, name: "Stage 27", answer: "nandos", image: "https://logo.clearbit.com/nandos.com" },
+                { id: 28, name: "Stage 28", answer: "carls jr", image: "https://logo.clearbit.com/carlsjr.com" },
+                { id: 29, name: "Stage 29", answer: "papa johns", image: "https://logo.clearbit.com/papajohns.com" },
+                { id: 30, name: "Stage 30", answer: "little caesars", image: "https://logo.clearbit.com/littlecaesars.com" }
             ],
             cars: [
                 { id: 1, name: "Stage 1", answer: "bmw", image: "https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg" },
@@ -251,7 +271,27 @@
                 { id: 7, name: "Stage 7", answer: "mercedes", image: "https://upload.wikimedia.org/wikipedia/commons/9/90/Mercedes-Benz_logo.svg" },
                 { id: 8, name: "Stage 8", answer: "ford", image: "https://upload.wikimedia.org/wikipedia/commons/a/a0/Ford_Motor_Company_Logo.svg" },
                 { id: 9, name: "Stage 9", answer: "hyundai", image: "https://upload.wikimedia.org/wikipedia/commons/4/44/Hyundai_Motor_Company_logo.svg" },
-                { id: 10, name: "Stage 10", answer: "honda", image: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Honda_Logo.svg" }
+                { id: 10, name: "Stage 10", answer: "honda", image: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Honda_Logo.svg" },
+                { id: 11, name: "Stage 11", answer: "volkswagen", image: "https://logo.clearbit.com/vw.com" },
+                { id: 12, name: "Stage 12", answer: "chevrolet", image: "https://logo.clearbit.com/chevrolet.com" },
+                { id: 13, name: "Stage 13", answer: "nissan", image: "https://logo.clearbit.com/nissan.com" },
+                { id: 14, name: "Stage 14", answer: "jeep", image: "https://logo.clearbit.com/jeep.com" },
+                { id: 15, name: "Stage 15", answer: "subaru", image: "https://logo.clearbit.com/subaru.com" },
+                { id: 16, name: "Stage 16", answer: "lexus", image: "https://logo.clearbit.com/lexus.com" },
+                { id: 17, name: "Stage 17", answer: "mazda", image: "https://logo.clearbit.com/mazda.com" },
+                { id: 18, name: "Stage 18", answer: "kia", image: "https://logo.clearbit.com/kia.com" },
+                { id: 19, name: "Stage 19", answer: "volvo", image: "https://logo.clearbit.com/volvocars.com" },
+                { id: 20, name: "Stage 20", answer: "jaguar", image: "https://logo.clearbit.com/jaguar.com" },
+                { id: 21, name: "Stage 21", answer: "land rover", image: "https://logo.clearbit.com/landrover.com" },
+                { id: 22, name: "Stage 22", answer: "fiat", image: "https://logo.clearbit.com/fiat.com" },
+                { id: 23, name: "Stage 23", answer: "peugeot", image: "https://logo.clearbit.com/peugeot.com" },
+                { id: 24, name: "Stage 24", answer: "renault", image: "https://logo.clearbit.com/renault.com" },
+                { id: 25, name: "Stage 25", answer: "aston martin", image: "https://logo.clearbit.com/astonmartin.com" },
+                { id: 26, name: "Stage 26", answer: "bentley", image: "https://logo.clearbit.com/bentleymotors.com" },
+                { id: 27, name: "Stage 27", answer: "bugatti", image: "https://logo.clearbit.com/bugatti.com" },
+                { id: 28, name: "Stage 28", answer: "maserati", image: "https://logo.clearbit.com/maserati.com" },
+                { id: 29, name: "Stage 29", answer: "mclaren", image: "https://logo.clearbit.com/mclaren.com" },
+                { id: 30, name: "Stage 30", answer: "suzuki", image: "https://logo.clearbit.com/globalsuzuki.com" }
             ],
             clothes: [
                 { id: 1, name: "Stage 1", answer: "nike", image: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" },
@@ -263,7 +303,27 @@
                 { id: 7, name: "Stage 7", answer: "lacoste", image: "https://upload.wikimedia.org/wikipedia/commons/f/f3/Lacoste_logo.svg" },
                 { id: 8, name: "Stage 8", answer: "levis", image: "https://upload.wikimedia.org/wikipedia/commons/2/22/Levi%27s_logo.svg" },
                 { id: 9, name: "Stage 9", answer: "supreme", image: "https://upload.wikimedia.org/wikipedia/commons/2/28/Supreme_Logo.svg" },
-                { id: 10, name: "Stage 10", answer: "louis vuitton", image: "https://upload.wikimedia.org/wikipedia/commons/7/76/Louis_Vuitton_logo.svg" }
+                { id: 10, name: "Stage 10", answer: "louis vuitton", image: "https://upload.wikimedia.org/wikipedia/commons/7/76/Louis_Vuitton_logo.svg" },
+                { id: 11, name: "Stage 11", answer: "hm", image: "https://logo.clearbit.com/hm.com" },
+                { id: 12, name: "Stage 12", answer: "under armour", image: "https://logo.clearbit.com/underarmour.com" },
+                { id: 13, name: "Stage 13", answer: "calvin klein", image: "https://logo.clearbit.com/calvinklein.com" },
+                { id: 14, name: "Stage 14", answer: "ralph lauren", image: "https://logo.clearbit.com/ralphlauren.com" },
+                { id: 15, name: "Stage 15", answer: "tommy hilfiger", image: "https://logo.clearbit.com/tommy.com" },
+                { id: 16, name: "Stage 16", answer: "versace", image: "https://logo.clearbit.com/versace.com" },
+                { id: 17, name: "Stage 17", answer: "prada", image: "https://logo.clearbit.com/prada.com" },
+                { id: 18, name: "Stage 18", answer: "dior", image: "https://logo.clearbit.com/dior.com" },
+                { id: 19, name: "Stage 19", answer: "balenciaga", image: "https://logo.clearbit.com/balenciaga.com" },
+                { id: 20, name: "Stage 20", answer: "hermes", image: "https://logo.clearbit.com/hermes.com" },
+                { id: 21, name: "Stage 21", answer: "fendi", image: "https://logo.clearbit.com/fendi.com" },
+                { id: 22, name: "Stage 22", answer: "burberry", image: "https://logo.clearbit.com/burberry.com" },
+                { id: 23, name: "Stage 23", answer: "armani", image: "https://logo.clearbit.com/armani.com" },
+                { id: 24, name: "Stage 24", answer: "givenchy", image: "https://logo.clearbit.com/givenchy.com" },
+                { id: 25, name: "Stage 25", answer: "gap", image: "https://logo.clearbit.com/gap.com" },
+                { id: 26, name: "Stage 26", answer: "guess", image: "https://logo.clearbit.com/guess.com" },
+                { id: 27, name: "Stage 27", answer: "vans", image: "https://logo.clearbit.com/vans.com" },
+                { id: 28, name: "Stage 28", answer: "converse", image: "https://logo.clearbit.com/converse.com" },
+                { id: 29, name: "Stage 29", answer: "reebok", image: "https://logo.clearbit.com/reebok.com" },
+                { id: 30, name: "Stage 30", answer: "timberland", image: "https://logo.clearbit.com/timberland.com" }
             ]
         };
 
@@ -349,7 +409,7 @@
                         <span class="text-[9px] mt-0.5 font-semibold tracking-wider uppercase"><i class="fa-solid fa-circle-check"></i> Fini</span>
                     `;
                 } else if (unlocked) {
-                    btn.className += "bg-[#ff007f]/5 border-[#ff007f]/30 hover:border-[#ff007f] text-[#ff007f]";
+                    btn.className += "bg-[#00f5d4]/5 border-[#00f5d4]/30 hover:border-[#00f5d4] text-[#00f5d4]";
                     btn.innerHTML = `
                         <span class="font-bold text-base md:text-lg" style="font-family: 'Orbitron', sans-serif;">${stage.id}</span>
                         <span class="text-[9px] mt-0.5 font-semibold tracking-wider uppercase"><i class="fa-solid fa-lock-open"></i> Jouer</span>
@@ -403,7 +463,7 @@
             for (let i = 0; i < 3; i++) {
                 const heart = document.createElement('i');
                 if (i < livesLeft) {
-                    heart.className = "fa-solid fa-heart neon-text-pink scale-100 transition duration-300";
+                    heart.className = "fa-solid fa-heart neon-text-blue scale-100 transition duration-300";
                 } else {
                     heart.className = "fa-solid fa-heart-broken text-slate-800 scale-90 transition duration-300";
                 }
@@ -448,7 +508,7 @@
             // État actif normal
             document.getElementById('answer-input').disabled = false;
             document.getElementById('submit-btn').disabled = false;
-            document.getElementById('submit-btn').className = "w-full py-4 bg-[#ff007f] hover:bg-[#ff007f]/90 text-white font-bold rounded-xl transition-all duration-200 uppercase tracking-widest hover:scale-[1.01] active:scale-95 shadow-lg shadow-[#ff007f]/20";
+            document.getElementById('submit-btn').className = "w-full py-4 bg-[#00f5d4] hover:bg-[#00f5d4]/90 text-slate-950 font-bold rounded-xl transition-all duration-200 uppercase tracking-widest hover:scale-[1.01] active:scale-95 shadow-lg shadow-[#00f5d4]/20";
             return false;
         }
 
@@ -487,7 +547,7 @@
             
             document.getElementById('answer-input').disabled = false;
             document.getElementById('submit-btn').disabled = false;
-            document.getElementById('submit-btn').className = "w-full py-4 bg-[#ff007f] hover:bg-[#ff007f]/90 text-white font-bold rounded-xl transition-all duration-200 uppercase tracking-widest hover:scale-[1.01] active:scale-95 shadow-lg shadow-[#ff007f]/20";
+            document.getElementById('submit-btn').className = "w-full py-4 bg-[#00f5d4] hover:bg-[#00f5d4]/90 text-slate-950 font-bold rounded-xl transition-all duration-200 uppercase tracking-widest hover:scale-[1.01] active:scale-95 shadow-lg shadow-[#00f5d4]/20";
             
             const panel = document.getElementById('feedback-panel');
             panel.className = "text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide text-transparent";
@@ -507,7 +567,7 @@
             const currentStage = gameCategories[activeCategory][activeStageIndex];
             const correctAnswer = normalizeString(currentStage.answer);
 
-            wrapperEl.classList.remove('animate-shake', 'neon-border-pink', 'neon-border-cyan');
+            wrapperEl.classList.remove('animate-shake', 'neon-border-blue', 'neon-border-cyan');
 
             if (userAnswer === correctAnswer) {
                 // VICTOIRE DU NIVEAU
@@ -538,13 +598,13 @@
                 livesLeft--;
                 updateHeartsUI();
                 
-                wrapperEl.classList.add('animate-shake', 'neon-border-pink');
+                wrapperEl.classList.add('animate-shake', 'neon-border-blue');
                 playSynthSound("wrong");
 
                 if (livesLeft <= 0) {
                     startBlockageCooldown();
                 } else {
-                    panel.className = "text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide bg-[#ff007f]/10 border border-[#ff007f]/40 text-[#ff007f] neon-text-pink";
+                    panel.className = "text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide bg-[#00f5d4]/10 border border-[#00f5d4]/40 text-[#00f5d4] neon-text-blue";
                     panel.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-2"></i> Mauvaise réponse ! Il vous reste ${livesLeft} tentative(s).`;
                 }
 
