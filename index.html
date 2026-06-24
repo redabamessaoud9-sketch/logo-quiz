@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logo Quiz Cyberpunk - 30 Stages Edition</title>
+    <title>Logo Quiz Cyberpunk - Édition Multicorps</title>
     <!-- Tailwind CSS pour un rendu visuel premium et adaptatif -->
-    <script src="https://tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts pour la typographie futuriste et rétro-gaming -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
@@ -101,16 +100,19 @@
         <i class="fa-solid fa-volume-xmark" id="audio-icon"></i>
     </button>
 
-    <!-- Boîte de dialogue de Réussite Finale (Tous les 30 niveaux complétés !) -->
+    <!-- Boîte de dialogue de Réussite Finale (Tous les niveaux complétés dans la catégorie !) -->
     <div id="win-modal" class="fixed inset-0 bg-black/95 backdrop-blur-md flex items-center justify-center z-50 hidden p-4">
         <div class="glass-panel neon-border-cyan rounded-3xl p-8 max-w-md w-full text-center">
             <div class="text-6xl text-[#00f5d4] mb-4 animate-bounce">
                 <i class="fa-solid fa-trophy"></i>
             </div>
-            <h2 class="font-bold text-3xl mb-3 text-slate-50 tracking-wider" style="font-family: 'Orbitron', sans-serif;">GRAND CHAMPION !</h2>
-            <p class="text-slate-300 mb-6">Incroyable ! Vous avez surmonté les 30 stages de ce quiz avec brio. Votre savoir des marques est sans égal !</p>
-            <button onclick="resetGameProgression()" class="w-full py-3 bg-[#00f5d4] text-slate-950 font-bold rounded-xl hover:scale-105 active:scale-95 transition-all duration-200 uppercase tracking-widest shadow-lg shadow-[#00f5d4]/20">
-                Réinitialiser & Recommencer
+            <h2 class="font-bold text-3xl mb-3 text-slate-50 tracking-wider" style="font-family: 'Orbitron', sans-serif;">CATÉGORIE RÉUSSIE !</h2>
+            <p class="text-slate-300 mb-6">Félicitations ! Vous avez surmonté tous les stages de cette catégorie avec brio.</p>
+            <button onclick="resetGameProgression()" class="w-full py-3 bg-[#00f5d4] text-slate-950 font-bold rounded-xl hover:scale-105 active:scale-95 transition-all duration-200 uppercase tracking-widest shadow-lg shadow-[#00f5d4]/20 mb-3">
+                Réinitialiser la catégorie
+            </button>
+            <button onclick="changeScreen('screen-categories'); document.getElementById('win-modal').classList.add('hidden');" class="w-full py-3 bg-slate-800 text-white font-bold rounded-xl hover:scale-105 active:scale-95 transition-all duration-200 uppercase tracking-widest">
+                Retour aux catégories
             </button>
         </div>
     </div>
@@ -121,14 +123,47 @@
         <!-- ÉCRAN : MENU PRINCIPAL -->
         <div id="screen-menu" class="space-y-6 text-center">
             <div class="mb-4">
-                <span class="px-3 py-1 bg-[#ff007f]/20 border border-[#ff007f]/40 rounded-full text-[#ff007f] text-xs font-bold uppercase tracking-widest">30 Niveaux - Edition Ultime</span>
+                <span class="px-3 py-1 bg-[#ff007f]/20 border border-[#ff007f]/40 rounded-full text-[#ff007f] text-xs font-bold uppercase tracking-widest">3 Catégories - 30 Stages</span>
             </div>
             <h1 class="text-4xl md:text-5xl font-black title-neon text-[#ff007f] tracking-tight py-2 uppercase">Logo Quiz</h1>
-            <p class="text-slate-400 text-lg max-w-sm mx-auto">Sauras-tu deviner les 30 logos uniques de cette édition ? Un véritable défi de mémoire t'attend.</p>
+            <p class="text-slate-400 text-lg max-w-sm mx-auto">Prêt à tester votre mémoire visuelle ? Choisissez parmi nos catégories de marques.</p>
             
             <div class="pt-4">
-                <button onclick="changeScreen('screen-stages')" class="w-full md:w-auto px-10 py-4 bg-gradient-to-r from-[#ff007f] to-[#b30059] text-white font-bold text-lg rounded-xl transition duration-300 hover:shadow-lg hover:shadow-[#ff007f]/30 hover:scale-[1.03] active:scale-95 flex items-center justify-center gap-3 mx-auto uppercase">
+                <button onclick="changeScreen('screen-categories')" class="w-full md:w-auto px-10 py-4 bg-gradient-to-r from-[#ff007f] to-[#b30059] text-white font-bold text-lg rounded-xl transition duration-300 hover:shadow-lg hover:shadow-[#ff007f]/30 hover:scale-[1.03] active:scale-95 flex items-center justify-center gap-3 mx-auto uppercase">
                     <i class="fa-solid fa-play"></i> Commencer le quiz
+                </button>
+            </div>
+        </div>
+
+        <!-- ÉCRAN : SÉLECTION DES CATÉGORIES -->
+        <div id="screen-categories" class="hidden space-y-6">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <button onclick="changeScreen('screen-menu')" class="text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-chevron-left"></i> Menu
+                </button>
+                <h2 class="text-xl font-bold uppercase tracking-wider text-[#00f5d4] neon-text-cyan" style="font-family: 'Orbitron', sans-serif;">Catégories</h2>
+                <div class="w-10"></div>
+            </div>
+
+            <p class="text-slate-400 text-center">Sélectionnez une thématique pour démarrer :</p>
+
+            <div class="space-y-4">
+                <!-- Choix 1: Restaurants -->
+                <button onclick="selectCategory('restaurant')" class="w-full py-4 bg-gradient-to-r from-orange-500/10 to-red-500/10 hover:from-orange-500/20 hover:to-red-500/20 text-white font-bold rounded-xl border border-orange-500/40 transition duration-300 hover:scale-[1.02] flex items-center justify-between px-6">
+                    <span class="flex items-center gap-3 text-lg font-bold tracking-wider"><i class="fa-solid fa-utensils text-orange-400"></i> Restaurants</span>
+                    <i class="fa-solid fa-chevron-right text-slate-400"></i>
+                </button>
+
+                <!-- Choix 2: Marques de voitures -->
+                <button onclick="selectCategory('cars')" class="w-full py-4 bg-gradient-to-r from-blue-500/10 to-cyan-500/10 hover:from-blue-500/20 hover:to-cyan-500/20 text-white font-bold rounded-xl border border-blue-500/40 transition duration-300 hover:scale-[1.02] flex items-center justify-between px-6">
+                    <span class="flex items-center gap-3 text-lg font-bold tracking-wider"><i class="fa-solid fa-car text-blue-400"></i> Marques de voitures</span>
+                    <i class="fa-solid fa-chevron-right text-slate-400"></i>
+                </button>
+
+                <!-- Choix 3: Marques de vêtements -->
+                <button onclick="selectCategory('clothes')" class="w-full py-4 bg-gradient-to-r from-pink-500/10 to-purple-500/10 hover:from-pink-500/20 hover:to-purple-500/20 text-white font-bold rounded-xl border border-pink-500/40 transition duration-300 hover:scale-[1.02] flex items-center justify-between px-6">
+                    <span class="flex items-center gap-3 text-lg font-bold tracking-wider"><i class="fa-solid fa-shirt text-pink-400"></i> Marques de vêtements</span>
+                    <i class="fa-solid fa-chevron-right text-slate-400"></i>
                 </button>
             </div>
         </div>
@@ -136,10 +171,10 @@
         <!-- ÉCRAN : LISTE DES NIVEAUX (STAGES) -->
         <div id="screen-stages" class="hidden space-y-6">
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-                <button onclick="changeScreen('screen-menu')" class="text-slate-400 hover:text-white transition flex items-center gap-2">
-                    <i class="fa-solid fa-chevron-left"></i> Menu
+                <button onclick="changeScreen('screen-categories')" class="text-slate-400 hover:text-white transition flex items-center gap-2">
+                    <i class="fa-solid fa-chevron-left"></i> Catégories
                 </button>
-                <h2 class="text-xl font-bold uppercase tracking-wider text-[#00f5d4] neon-text-cyan" style="font-family: 'Orbitron', sans-serif;">Niveaux (1 - 30)</h2>
+                <h2 id="stages-title-text" class="text-lg font-bold uppercase tracking-wider text-[#00f5d4] neon-text-cyan" style="font-family: 'Orbitron', sans-serif;">Niveaux</h2>
                 <button onclick="resetGameProgression()" class="text-xs text-red-400 hover:text-red-500 transition uppercase tracking-widest font-semibold">
                     <i class="fa-solid fa-trash-can mr-1"></i> Reset
                 </button>
@@ -147,13 +182,12 @@
 
             <!-- Grille défilante de sélection de niveaux -->
             <div id="stages-container" class="grid grid-cols-4 gap-3 py-2 max-h-[380px] overflow-y-auto pr-1">
-                <!-- Les 30 boutons de niveaux générés dynamiquement par JavaScript -->
+                <!-- Les 10 boutons de niveaux de la catégorie courante générés dynamiquement -->
             </div>
         </div>
 
         <!-- ÉCRAN : JEU EN COURS -->
         <div id="screen-game" class="hidden space-y-6">
-            
             <!-- Barre d'état du niveau -->
             <div class="flex items-center justify-between border-b border-slate-800 pb-4">
                 <button onclick="changeScreen('screen-stages')" class="text-slate-400 hover:text-white transition flex items-center gap-2">
@@ -173,7 +207,7 @@
 
             <!-- Cadre d'affichage du Logo à deviner -->
             <div id="logo-wrapper" class="w-48 h-48 mx-auto bg-white rounded-2xl p-4 flex items-center justify-center transition-all duration-300 border border-slate-800">
-                <img id="logo-img" src="" alt="Quiz Logo" class="max-w-full max-h-full object-contain pointer-events-none select-none">
+                <img id="logo-img" src="" alt="Quiz Logo" class="max-w-full max-h-full object-contain pointer-events-none select-none animate-pulse">
             </div>
 
             <!-- Zone de feedback dynamique / Compte à rebours de pénalité -->
@@ -193,40 +227,47 @@
     </div>
 
     <script>
-        // 1. Base de données complète de 30 NIVEAUX (1 seul logo par niveau)
-        const gameStages = [
-            { id: 1, name: "Stage 1", answer: "nike", image: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" },
-            { id: 2, name: "Stage 2", answer: "apple", image: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" },
-            { id: 3, name: "Stage 3", answer: "google", image: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" },
-            { id: 4, name: "Stage 4", answer: "pepsi", image: "https://upload.wikimedia.org/wikipedia/commons/0/0f/Pepsi_logo_2014.svg" },
-            { id: 5, name: "Stage 5", answer: "mcdonalds", image: "https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" },
-            { id: 6, name: "Stage 6", answer: "starbucks", image: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Starbucks_Corporation_Logo_2011.svg" },
-            { id: 7, name: "Stage 7", answer: "bmw", image: "https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg" },
-            { id: 8, name: "Stage 8", answer: "amazon", image: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" },
-            { id: 9, name: "Stage 9", answer: "netflix", image: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" },
-            { id: 10, name: "Stage 10", answer: "microsoft", image: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg" },
-            { id: 11, name: "Stage 11", answer: "youtube", image: "https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" },
-            { id: 12, name: "Stage 12", answer: "adidas", image: "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg" },
-            { id: 13, name: "Stage 13", answer: "tesla", image: "https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_logo.svg" },
-            { id: 14, name: "Stage 14", answer: "facebook", image: "https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.svg" },
-            { id: 15, name: "Stage 15", answer: "instagram", image: "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg" },
-            { id: 16, name: "Stage 16", answer: "coca cola", image: "https://upload.wikimedia.org/wikipedia/commons/c/cf/Coca-Cola_logo.svg" },
-            { id: 17, name: "Stage 17", answer: "audi", image: "https://upload.wikimedia.org/wikipedia/commons/9/92/Audi-Logo_2016.svg" },
-            { id: 18, name: "Stage 18", answer: "toyota", image: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Toyota_EU.svg" },
-            { id: 19, name: "Stage 19", answer: "spotify", image: "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" },
-            { id: 20, name: "Stage 20", answer: "disney", image: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Walt_Disney_Pictures_logo.svg" },
-            { id: 21, name: "Stage 21", answer: "nintendo", image: "https://upload.wikimedia.org/wikipedia/commons/0/0d/Nintendo.svg" },
-            { id: 22, name: "Stage 22", answer: "lego", image: "https://upload.wikimedia.org/wikipedia/commons/2/24/LEGO_logo.svg" },
-            { id: 23, name: "Stage 23", answer: "chanel", image: "https://upload.wikimedia.org/wikipedia/commons/9/92/Chanel_logo_interlocking_cs.svg" },
-            { id: 24, name: "Stage 24", answer: "burger king", image: "https://upload.wikimedia.org/wikipedia/commons/c/cc/Burger_King_2020.svg" },
-            { id: 25, name: "Stage 25", answer: "playboy", image: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Playboy_logo.svg" },
-            { id: 26, name: "Stage 26", answer: "mastercard", image: "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" },
-            { id: 27, name: "Stage 27", answer: "windows", image: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Windows_logo_-_2012.svg" },
-            { id: 28, name: "Stage 28", answer: "puma", image: "https://upload.wikimedia.org/wikipedia/commons/8/88/Puma_Logo.svg" },
-            { id: 29, name: "Stage 29", answer: "ferrari", image: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Ferrari-Logo.svg" },
-            { id: 30, name: "Stage 30", answer: "star wars", image: "https://upload.wikimedia.org/wikipedia/commons/6/6c/Star_Wars_Logo.svg" }
-        ];
+        // Base de données structurée en 3 catégories de 10 niveaux chacune
+        const gameCategories = {
+            restaurant: [
+                { id: 1, name: "Stage 1", answer: "mcdonalds", image: "https://upload.wikimedia.org/wikipedia/commons/3/36/McDonald%27s_Golden_Arches.svg" },
+                { id: 2, name: "Stage 2", answer: "starbucks", image: "https://upload.wikimedia.org/wikipedia/commons/d/d5/Starbucks_Corporation_Logo_2011.svg" },
+                { id: 3, name: "Stage 3", answer: "burger king", image: "https://upload.wikimedia.org/wikipedia/commons/c/cc/Burger_King_2020.svg" },
+                { id: 4, name: "Stage 4", answer: "pepsi", image: "https://upload.wikimedia.org/wikipedia/commons/0/0f/Pepsi_logo_2014.svg" },
+                { id: 5, name: "Stage 5", answer: "coca cola", image: "https://upload.wikimedia.org/wikipedia/commons/c/cf/Coca-Cola_logo.svg" },
+                { id: 6, name: "Stage 6", answer: "dominos", image: "https://upload.wikimedia.org/wikipedia/commons/3/3e/Domino%27s_pizza_logo.svg" },
+                { id: 7, name: "Stage 7", answer: "kfc", image: "https://upload.wikimedia.org/wikipedia/commons/b/bf/KFC_logo.svg" },
+                { id: 8, name: "Stage 8", answer: "pizza hut", image: "https://upload.wikimedia.org/wikipedia/commons/9/98/Pizza_Hut_logo.svg" },
+                { id: 9, name: "Stage 9", answer: "subway", image: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Subway_2016_logo.svg" },
+                { id: 10, name: "Stage 10", answer: "dunkin", image: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Dunkin%27_Donuts_logo.svg" }
+            ],
+            cars: [
+                { id: 1, name: "Stage 1", answer: "bmw", image: "https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg" },
+                { id: 2, name: "Stage 2", answer: "tesla", image: "https://upload.wikimedia.org/wikipedia/commons/e/e8/Tesla_logo.svg" },
+                { id: 3, name: "Stage 3", answer: "audi", image: "https://upload.wikimedia.org/wikipedia/commons/9/92/Audi-Logo_2016.svg" },
+                { id: 4, name: "Stage 4", answer: "toyota", image: "https://upload.wikimedia.org/wikipedia/commons/5/5e/Toyota_EU.svg" },
+                { id: 5, name: "Stage 5", answer: "ferrari", image: "https://upload.wikimedia.org/wikipedia/commons/d/d1/Ferrari-Logo.svg" },
+                { id: 6, name: "Stage 6", answer: "porsche", image: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Porsche_logo.svg" },
+                { id: 7, name: "Stage 7", answer: "mercedes", image: "https://upload.wikimedia.org/wikipedia/commons/9/90/Mercedes-Benz_logo.svg" },
+                { id: 8, name: "Stage 8", answer: "ford", image: "https://upload.wikimedia.org/wikipedia/commons/a/a0/Ford_Motor_Company_Logo.svg" },
+                { id: 9, name: "Stage 9", answer: "hyundai", image: "https://upload.wikimedia.org/wikipedia/commons/4/44/Hyundai_Motor_Company_logo.svg" },
+                { id: 10, name: "Stage 10", answer: "honda", image: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Honda_Logo.svg" }
+            ],
+            clothes: [
+                { id: 1, name: "Stage 1", answer: "nike", image: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" },
+                { id: 2, name: "Stage 2", answer: "adidas", image: "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg" },
+                { id: 3, name: "Stage 3", answer: "puma", image: "https://upload.wikimedia.org/wikipedia/commons/8/88/Puma_Logo.svg" },
+                { id: 4, name: "Stage 4", answer: "chanel", image: "https://upload.wikimedia.org/wikipedia/commons/9/92/Chanel_logo_interlocking_cs.svg" },
+                { id: 5, name: "Stage 5", answer: "zara", image: "https://upload.wikimedia.org/wikipedia/commons/f/fd/Zara_Logo.svg" },
+                { id: 6, name: "Stage 6", answer: "gucci", image: "https://upload.wikimedia.org/wikipedia/commons/7/79/1960s_Gucci_Logo.svg" },
+                { id: 7, name: "Stage 7", answer: "lacoste", image: "https://upload.wikimedia.org/wikipedia/commons/f/f3/Lacoste_logo.svg" },
+                { id: 8, name: "Stage 8", answer: "levis", image: "https://upload.wikimedia.org/wikipedia/commons/2/22/Levi%27s_logo.svg" },
+                { id: 9, name: "Stage 9", answer: "supreme", image: "https://upload.wikimedia.org/wikipedia/commons/2/28/Supreme_Logo.svg" },
+                { id: 10, name: "Stage 10", answer: "louis vuitton", image: "https://upload.wikimedia.org/wikipedia/commons/7/76/Louis_Vuitton_logo.svg" }
+            ]
+        };
 
+        let activeCategory = 'restaurant';
         let activeStageIndex = 0;
         let livesLeft = 3;
         let cooldownTimer = null;
@@ -245,6 +286,7 @@
         // Changement d'écran dynamique
         function changeScreen(screenId) {
             document.getElementById('screen-menu').classList.add('hidden');
+            document.getElementById('screen-categories').classList.add('hidden');
             document.getElementById('screen-stages').classList.add('hidden');
             document.getElementById('screen-game').classList.add('hidden');
 
@@ -255,32 +297,45 @@
             }
         }
 
+        // Choix d'une catégorie par l'utilisateur
+        function selectCategory(cat) {
+            activeCategory = cat;
+            changeScreen('screen-stages');
+        }
+
+        // Gestion de la progression via LocalStorage par catégorie
         function getMaxUnlockedStage() {
-            return parseInt(localStorage.getItem('logo_quiz_max_stage_v2')) || 1;
+            return parseInt(localStorage.getItem(`logo_quiz_max_stage_v3_${activeCategory}`)) || 1;
         }
 
         function unlockNextStage(stageId) {
             const currentMax = getMaxUnlockedStage();
             if (stageId > currentMax) {
-                localStorage.setItem('logo_quiz_max_stage_v2', stageId);
+                localStorage.setItem(`logo_quiz_max_stage_v3_${activeCategory}`, stageId);
             }
         }
 
         function isStageCompleted(stageId) {
-            return localStorage.getItem(`logo_quiz_stage_v2_${stageId}_completed`) === 'true';
+            return localStorage.getItem(`logo_quiz_stage_v3_${activeCategory}_${stageId}_completed`) === 'true';
         }
 
         function setStageCompleted(stageId) {
-            localStorage.setItem(`logo_quiz_stage_v2_${stageId}_completed`, 'true');
+            localStorage.setItem(`logo_quiz_stage_v3_${activeCategory}_${stageId}_completed`, 'true');
         }
 
+        // Rendu de l'affichage des niveaux de la catégorie sélectionnée
         function renderStagesMenu() {
             const container = document.getElementById('stages-container');
             container.innerHTML = '';
 
             const maxUnlocked = getMaxUnlockedStage();
+            const currentStages = gameCategories[activeCategory];
 
-            gameStages.forEach((stage, idx) => {
+            // Changement dynamique du titre de l'écran des stages
+            const titles = { restaurant: "Restaurants", cars: "Voitures", clothes: "Vêtements" };
+            document.getElementById('stages-title-text').innerText = `Stages (${titles[activeCategory]})`;
+
+            currentStages.forEach((stage, idx) => {
                 const btn = document.createElement('button');
                 const completed = isStageCompleted(stage.id);
                 const unlocked = stage.id <= maxUnlocked;
@@ -315,7 +370,7 @@
             });
         }
 
-        // Lance le jeu pour un stage particulier
+        // Lance le jeu pour un stage particulier de la catégorie sélectionnée
         function launchQuiz(idx) {
             // Auto-play de la musique au premier clic sur un niveau (requis par les navigateurs web)
             const musicPlayer = document.getElementById('custom-bg-music');
@@ -332,7 +387,7 @@
         }
 
         function updateGameUI() {
-            const currentStage = gameStages[activeStageIndex];
+            const currentStage = gameCategories[activeCategory][activeStageIndex];
             document.getElementById('game-title').innerText = currentStage.name;
             document.getElementById('logo-img').src = currentStage.image;
             document.getElementById('answer-input').value = '';
@@ -356,10 +411,11 @@
             }
         }
 
+        // Cooldown de 5 minutes par catégorie si toutes les vies sont perdues
         function startBlockageCooldown() {
             const cooldownDuration = 5 * 60 * 1000; // 5 minutes en millisecondes
             const unlockTime = Date.now() + cooldownDuration;
-            localStorage.setItem('logo_quiz_cooldown_end_v2', unlockTime);
+            localStorage.setItem(`logo_quiz_cooldown_end_v3_${activeCategory}`, unlockTime);
             
             playSynthSound("lock");
             checkAndApplyCooldown();
@@ -367,7 +423,7 @@
 
         function checkAndApplyCooldown() {
             clearInterval(cooldownTimer);
-            const cooldownEnd = localStorage.getItem('logo_quiz_cooldown_end_v2');
+            const cooldownEnd = localStorage.getItem(`logo_quiz_cooldown_end_v3_${activeCategory}`);
             
             if (cooldownEnd) {
                 const timeLeft = parseInt(cooldownEnd) - Date.now();
@@ -384,7 +440,7 @@
                     return true;
                 } else {
                     // Libération automatique
-                    localStorage.removeItem('logo_quiz_cooldown_end_v2');
+                    localStorage.removeItem(`logo_quiz_cooldown_end_v3_${activeCategory}`);
                     resetUserAttempts();
                 }
             }
@@ -402,7 +458,7 @@
             panel.className = "text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide bg-amber-500/10 border border-amber-500/40 text-amber-500";
 
             cooldownTimer = setInterval(() => {
-                const cooldownEnd = localStorage.getItem('logo_quiz_cooldown_end_v2');
+                const cooldownEnd = localStorage.getItem(`logo_quiz_cooldown_end_v3_${activeCategory}`);
                 if (!cooldownEnd) {
                     clearInterval(cooldownTimer);
                     resetUserAttempts();
@@ -413,7 +469,7 @@
 
                 if (remaining <= 0) {
                     clearInterval(cooldownTimer);
-                    localStorage.removeItem('logo_quiz_cooldown_end_v2');
+                    localStorage.removeItem(`logo_quiz_cooldown_end_v3_${activeCategory}`);
                     resetUserAttempts();
                 } else {
                     const minutes = Math.floor(remaining / 60000);
@@ -448,7 +504,7 @@
             const panel = document.getElementById('feedback-panel');
             
             const userAnswer = normalizeString(inputEl.value);
-            const currentStage = gameStages[activeStageIndex];
+            const currentStage = gameCategories[activeCategory][activeStageIndex];
             const correctAnswer = normalizeString(currentStage.answer);
 
             wrapperEl.classList.remove('animate-shake', 'neon-border-pink', 'neon-border-cyan');
@@ -468,10 +524,10 @@
                     panel.innerHTML = "";
                     panel.className = "text-center min-h-[40px] px-4 py-2 rounded-lg flex items-center justify-center text-sm font-semibold tracking-wide text-transparent";
                     
-                    if (activeStageIndex + 1 < gameStages.length) {
+                    if (activeStageIndex + 1 < gameCategories[activeCategory].length) {
                         launchQuiz(activeStageIndex + 1);
                     } else {
-                        // Fin complète des 30 niveaux
+                        // Fin complète de la catégorie courante
                         document.getElementById('win-modal').classList.remove('hidden');
                         playSynthSound("win");
                     }
@@ -505,15 +561,15 @@
             }
         });
 
-        // Suppression complète de la progression utilisateur
+        // Suppression complète de la progression utilisateur de la catégorie sélectionnée
         function resetGameProgression() {
-            localStorage.removeItem('logo_quiz_max_stage_v2');
-            localStorage.removeItem('logo_quiz_cooldown_end_v2');
-            gameStages.forEach(stage => {
-                localStorage.removeItem(`logo_quiz_stage_v2_${stage.id}_completed`);
+            localStorage.removeItem(`logo_quiz_max_stage_v3_${activeCategory}`);
+            localStorage.removeItem(`logo_quiz_cooldown_end_v3_${activeCategory}`);
+            gameCategories[activeCategory].forEach(stage => {
+                localStorage.removeItem(`logo_quiz_stage_v3_${activeCategory}_${stage.id}_completed`);
             });
             document.getElementById('win-modal').classList.add('hidden');
-            changeScreen('screen-menu');
+            changeScreen('screen-stages');
         }
 
         function initAudioContext() {
