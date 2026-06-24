@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Quiz Master</title>
+    <style>
+        :root {
+            --primary: #4A90E2;
+            --bg: #2C3E50;
+            --text: #FFFFFF;
+            --success: #2ECC71;
+            --error: #E74C3C;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 90%;
+            max-width: 500px;
+        }
+        h1 { margin-top: 0; font-size: 2.5em; color: var(--primary); }
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover { background-color: #357ABD; }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 80%;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .hidden { display: none !important; }
+        #logo-image {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            background: white;
+            border-radius: 10px;
+            margin: 20px auto;
+            display: block;
+        }
+        .stage-btn { background-color: #f39c12; }
+        .stage-btn:hover { background-color: #d68910; }
+        #feedback { font-weight: bold; margin-bottom: 15px; min-height: 24px; }
+        .music-btn { position: absolute; top: 10px; right: 10px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="musique.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="music-toggle" class="music-btn" onclick="toggleMusic()">🎵 Musique : OFF</button>
+
+    <div class="container">
+        <div id="menu-screen">
+            <h1>Logo Quiz</h1>
+            <p>Devinez les marques pour passer au niveau supérieur !</p>
+            <button onclick="showStages()">Jouer</button>
+        </div>
+
+        <div id="stage-screen" class="hidden">
+            <h2>Choisissez un niveau</h2>
+            <div id="stage-list">
+                </div>
+            <button onclick="showMenu()" style="background-color: #7f8c8d;">Retour</button>
+        </div>
+
+        <div id="game-screen" class="hidden">
+            <h2 id="stage-title">Niveau 1</h2>
+            <p>Logo <span id="current-logo-num">1</span> / <span id="total-logos">X</span></p>
+            
+            <img id="logo-image" src="" alt="Logo à deviner">
+            
+            <div id="feedback"></div>
+            
+            <input type="text" id="answer-input" placeholder="Nom de la marque..." autocomplete="off">
+            <br>
+            <button onclick="checkAnswer()">Valider</button>
+            <button onclick="showStages()" style="background-color: #7f8c8d;">Quitter</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. Base de données du jeu (À personnaliser avec tes images)
+        const gameData = [
+            {
+                stage: 1,
+                logos: [
+                    // Remplace les liens par les images de ton dossier sur GitHub
+                    { image: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg", answer: "google" },
+                    { image: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg", answer: "apple" }
+                ]
+            },
+            {
+                stage: 2,
+                logos: [
+                    { image: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg", answer: "nike" },
+                    { image: "https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg", answer: "bmw" }
+                ]
+            }
+        ];
+
+        // Variables d'état du jeu
+        let currentStageIndex = 0;
+        let currentLogoIndex = 0;
+        let musicPlaying = false;
+
+        // Récupération des éléments HTML
+        const menuScreen = document.getElementById('menu-screen');
+        const stageScreen = document.getElementById('stage-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const stageList = document.getElementById('stage-list');
+        const logoImage = document.getElementById('logo-image');
+        const answerInput = document.getElementById('answer-input');
+        const feedback = document.getElementById('feedback');
+        const bgMusic = document.getElementById('bg-music');
+        const musicToggleBtn = document.getElementById('music-toggle');
+
+        // Navigation
+        function showMenu() {
+            menuScreen.classList.remove('hidden');
+            stageScreen.classList.add('hidden');
+            gameScreen.classList.add('hidden');
+        }
+
+        function showStages() {
+            menuScreen.classList.add('hidden');
+            stageScreen.classList.remove('hidden');
+            gameScreen.classList.add('hidden');
+            
+            // Générer les boutons de niveaux
+            stageList.innerHTML = '';
+            gameData.forEach((stageData, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'stage-btn';
+                btn.innerText = `Niveau ${stageData.stage}`;
+                btn.onclick = () => startStage(index);
+                stageList.appendChild(btn);
+            });
+        }
+
+        // Logique du Jeu
+        function startStage(index) {
+            currentStageIndex = index;
+            currentLogoIndex = 0;
+            
+            // Démarrer la musique au premier clic sur un niveau (règle des navigateurs)
+            if (!musicPlaying) toggleMusic();
+
+            stageScreen.classList.add('hidden');
+            gameScreen.classList.remove('hidden');
+            document.getElementById('stage-title').innerText = `Niveau ${gameData[currentStageIndex].stage}`;
+            document.getElementById('total-logos').innerText = gameData[currentStageIndex].logos.length;
+            
+            loadLogo();
+        }
+
+        function loadLogo() {
+            const currentStageData = gameData[currentStageIndex];
+            const logoData = currentStageData.logos[currentLogoIndex];
+            
+            logoImage.src = logoData.image;
+            document.getElementById('current-logo-num').innerText = currentLogoIndex + 1;
+            answerInput.value = '';
+            feedback.innerText = '';
+            answerInput.focus();
+        }
+
+        function checkAnswer() {
+            const currentStageData = gameData[currentStageIndex];
+            const correctAnswer = currentStageData.logos[currentLogoIndex].answer.toLowerCase();
+            const userAnswer = answerInput.value.trim().toLowerCase();
+
+            if (userAnswer === correctAnswer) {
+                feedback.style.color = 'var(--success)';
+                feedback.innerText = 'Bonne réponse !';
+                
+                setTimeout(() => {
+                    currentLogoIndex++;
+                    if (currentLogoIndex < currentStageData.logos.length) {
+                        loadLogo();
+                    } else {
+                        alert('Niveau terminé ! Bravo !');
+                        showStages();
+                    }
+                }, 1000);
+            } else {
+                feedback.style.color = 'var(--error)';
+                feedback.innerText = 'Mauvaise réponse, essayez encore.';
+            }
+        }
+
+        // Permettre de valider avec la touche Entrée
+        answerInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                checkAnswer();
+            }
+        });
+
+        // Gestion de la Musique
+        function toggleMusic() {
+            if (musicPlaying) {
+                bgMusic.pause();
+                musicToggleBtn.innerText = "🎵 Musique : OFF";
+            } else {
+                // Les navigateurs modernes bloquent l'audio s'il n'y a pas eu d'interaction utilisateur
+                bgMusic.play().catch(e => console.log("L'audio a besoin d'une interaction utilisateur au préalable."));
+                musicToggleBtn.innerText = "🎵 Musique : ON";
+            }
+            musicPlaying = !musicPlaying;
+        }
+    </script>
+</body>
+</html>
