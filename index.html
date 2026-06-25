@@ -4,611 +4,196 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Logo Quiz Master - Édition Bleue</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <style>
         :root {
-            /* Remplacement du rose par le bleu/cyan électrique */
-            --primary: #00f5d4;       
-            --primary-glow: rgba(0, 245, 212, 0.4);
-            --secondary: #0077ff;     /* Bleu profond pour les contrastes */
-            --secondary-glow: rgba(0, 119, 255, 0.4);
-            --accent: #ffb703;        
-            --bg-dark: #05050d;       
-            --panel-bg: rgba(13, 12, 28, 0.75); 
+            --primary: #00f5d4;
+            --bg-dark: #05050d;
+            --panel-bg: rgba(13, 12, 28, 0.85);
             --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --success: #00f5d4;       
-            --error: #ff3366;         /* Rouge vif pour les erreurs */
+            --error: #ff3366;
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(0, 245, 212, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(0, 119, 255, 0.15) 0px, transparent 50%);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .container {
-            background: var(--panel-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 245, 212, 0.05);
-            width: 90%;
-            max-width: 600px;
-            padding: 40px;
-            position: relative;
-            z-index: 2;
-            text-align: center;
-        }
-
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 2.8rem;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, var(--text-main) 30%, var(--primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            text-shadow: 0 0 15px rgba(0, 245, 212, 0.3);
-        }
-
-        h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            color: var(--primary);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px var(--primary-glow);
-        }
-
-        p.subtitle { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 30px; }
-
-        .btn {
-            background: linear-gradient(135deg, var(--primary) 0%, #00b4d8 100%);
-            color: #000; /* Texte noir pour plus de contraste sur le cyan */
-            border: none;
-            padding: 14px 28px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1rem;
-            font-weight: 900;
-            border-radius: 12px;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            letter-spacing: 1px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px var(--primary-glow);
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px var(--primary-glow);
-            filter: brightness(1.2);
-        }
-
-        .btn:disabled {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-muted);
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none !important;
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-main);
-            box-shadow: none;
-            margin-bottom: 0;
-            width: auto;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        /* Grille des Stages */
-        .stages-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 30px;
-            max-height: 350px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        .stages-grid::-webkit-scrollbar { width: 6px; }
-        .stages-grid::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); }
-        .stages-grid::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
-
-        .stage-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 15px 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .stage-card .stage-num {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-main);
-        }
-
-        .stage-card.unlocked {
-            border-color: rgba(0, 245, 212, 0.2);
-            background: rgba(0, 245, 212, 0.05);
-        }
-        .stage-card.unlocked:hover {
-            border-color: var(--primary);
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px var(--primary-glow);
-        }
-        .stage-card.completed {
-            border-color: var(--primary);
-            background: rgba(0, 245, 212, 0.1);
-        }
-        .stage-card.completed .stage-num { color: var(--primary); }
-        .stage-card.locked { opacity: 0.4; cursor: not-allowed; }
-
-        /* Zone d'affichage du Logo */
-        .logo-frame {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            width: 220px;
-            height: 220px;
-            margin: 0 auto 15px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 10px 25px rgba(0,0,0,0.2);
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
-        .logo-frame img { max-width: 100%; max-height: 100%; object-fit: contain; }
-
-        .input-group { margin-bottom: 25px; width: 100%; }
-        .input-bar {
-            width: 100%;
-            background: rgba(13, 12, 28, 0.8);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            padding: 16px 24px;
-            font-size: 1.2rem;
-            color: var(--text-main);
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 600;
-            text-align: center;
-            outline: none;
-            transition: all 0.3s ease;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .input-bar:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 20px var(--primary-glow);
-        }
-
-        .attempts-container {
-            display: flex; justify-content: center; gap: 12px; margin-bottom: 20px;
-        }
-        .heart-icon {
-            font-size: 1.6rem; color: var(--primary); text-shadow: 0 0 10px var(--primary-glow);
-            transition: all 0.3s ease;
-        }
-        .heart-icon.lost { color: rgba(255, 255, 255, 0.1); text-shadow: none; transform: scale(0.8); }
-
-        #feedback { font-size: 1.1rem; font-weight: 700; min-height: 28px; margin-bottom: 15px; text-transform: uppercase; }
-
-        .music-control {
-            position: absolute; top: 20px; right: 20px;
-            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-main); width: 44px; height: 44px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: all 0.3s ease; z-index: 10;
-        }
-        .music-control:hover {
-            background: var(--primary); border-color: var(--primary); color: #000;
-            box-shadow: 0 0 15px var(--primary-glow); transform: rotate(15deg);
-        }
-
+        body { font-family: 'Rajdhani', sans-serif; background: var(--bg-dark); color: var(--text-main); margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .container { background: var(--panel-bg); border-radius: 24px; width: 90%; max-width: 600px; padding: 40px; text-align: center; border: 1px solid rgba(0, 245, 212, 0.2); }
+        h1 { font-family: 'Orbitron', sans-serif; color: var(--primary); margin-bottom: 20px; }
+        .btn { background: var(--primary); color: #000; border: none; padding: 15px; width: 100%; border-radius: 10px; cursor: pointer; font-weight: bold; margin: 5px 0; text-transform: uppercase; }
         .hidden { display: none !important; }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-10px); }
-            40%, 80% { transform: translateX(10px); }
-        }
-        .shake { animation: shake 0.4s ease; border-color: var(--error); box-shadow: 0 0 25px rgba(255, 51, 102, 0.4); }
-        .success-glow { border-color: var(--success); box-shadow: 0 0 30px var(--primary-glow); }
+        .logo-frame { background: white; width: 200px; height: 200px; margin: 20px auto; display: flex; align-items: center; justify-content: center; border-radius: 20px; }
+        img { max-width: 180px; max-height: 180px; }
+        .input-bar { width: 80%; padding: 15px; margin: 20px 0; border-radius: 10px; border: none; text-align: center; font-size: 1.2rem; }
     </style>
 </head>
 <body>
 
-    <!-- Lecteur audio pointant vers ton fichier -->
-    <audio id="bg-music" loop preload="auto">
-        <source src="musique.mp3" type="audio/mpeg">
-    </audio>
-
-    <button id="music-btn" class="music-control" onclick="toggleMusic()">
-        <i class="fa-solid fa-volume-xmark"></i>
-    </button>
-
-    <div class="container">
-        
-        <!-- ÉCRAN : MENU PRINCIPAL -->
-        <div id="menu-screen">
-            <h1>Logo Quiz</h1>
-            <p class="subtitle">Identifiez la marque mystère</p>
-            <button class="btn" onclick="showCategories()">
-                <i class="fa-solid fa-play"></i> Jouer
-            </button>
-        </div>
-
-        <!-- ÉCRAN : CATÉGORIES -->
-        <div id="category-screen" class="hidden">
-            <h2>Catégories</h2>
-            <button class="btn" onclick="selectCategory('restaurants')"><i class="fa-solid fa-burger"></i> Restaurants</button>
-            <button class="btn" onclick="selectCategory('voitures')"><i class="fa-solid fa-car"></i> Voitures</button>
-            <button class="btn" onclick="selectCategory('vetements')"><i class="fa-solid fa-shirt"></i> Vêtements</button>
-            <button class="btn btn-secondary" onclick="showMenu()" style="margin-top: 15px;"><i class="fa-solid fa-arrow-left"></i> Retour</button>
-        </div>
-
-        <!-- ÉCRAN : SÉLECTION DE STAGE -->
-        <div id="stage-screen" class="hidden">
-            <h2 id="stage-title-cat">Niveaux</h2>
-            <div class="stages-grid" id="stages-grid"></div>
-            <button class="btn btn-secondary" onclick="showCategories()"><i class="fa-solid fa-arrow-left"></i> Catégories</button>
-        </div>
-
-        <!-- ÉCRAN : JEU -->
-        <div id="game-screen" class="hidden">
-            <h2 id="game-stage-title">Niveau X</h2>
-            
-            <div class="attempts-container" id="attempts-container"></div>
-
-            <div class="logo-frame" id="logo-frame">
-                <!-- Fallback sur une image vide d'erreur si le lien casse -->
-                <img id="logo-image" src="" alt="Logo" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'">
-            </div>
-
-            <div id="feedback"></div>
-
-            <div class="input-group">
-                <input type="text" class="input-bar" id="answer-input" placeholder="RÉPONSE..." autocomplete="off">
-            </div>
-
-            <div style="display: flex; gap: 15px; justify-content: center;">
-                <button class="btn btn-secondary" onclick="showStagesList()"><i class="fa-solid fa-grip"></i></button>
-                <button class="btn" style="margin-bottom:0;" id="validate-btn" onclick="checkAnswer()"><i class="fa-solid fa-check"></i> Valider</button>
-            </div>
-        </div>
+<div class="container">
+    <div id="menu-screen">
+        <h1>LOGO QUIZ</h1>
+        <button class="btn" onclick="showCategories()">COMMENCER À JOUER</button>
     </div>
 
-    <script>
-        // --- BASE DE DONNÉES DES 60 LOGOS ---
-        const gameCategories = {
-            restaurants: [
-                { stage: 1, logo: "mcdonalds.png", answer: "mcdonalds" },
-                { stage: 2, logo: "burger-king.png", answer: "burger king" },
-                { stage: 3, logo: "fanta.png", answer: "fanta" },
-                { stage: 4, logo: "dominos.png", answer: "dominos" },
-                { stage: 5, logo: "pepsi.png", answer: "pepsi" },
-                { stage: 6, logo: "starbucks.png", answer: "starbucks" },
-                { stage: 7, logo: "kfc.png", answer: "kfc" },
-                { stage: 8, logo: "pizza-hut.png", answer: "pizza hut" },
-                { stage: 9, logo: "coca-cola.png", answer: "coca cola" },
-                { stage: 10, logo: "dunkin-donuts.png", answer: "dunkin donuts" }
-            ],
-            voitures: [
-                { stage: 1, logo: "bmw.png", answer: "bmw" },
-                { stage: 2, logo: "mercedes.png", answer: "mercedes" },
-                { stage: 3, logo: "toyota.png", answer: "toyota" },
-                { stage: 4, logo: "porsche.png", answer: "porsche" },
-                { stage: 5, logo: "Volkswagen.png", answer: "volkswagen" },
-                { stage: 6, logo: "lamborghini.png", answer: "lamborghini" },
-                { stage: 7, logo: "ferrari.png", answer: "ferrari" },
-                { stage: 8, logo: "honda.png", answer: "honda" },
-                { stage: 9, logo: "ford.png", answer: "ford" },
-                { stage: 10, logo: "tesla.png", answer: "tesla" },
-                { stage: 11, logo: "audi.png", answer: "audi" },
-                { stage: 12, logo: "nissan.png", answer: "nissan" },
-                { stage: 13, logo: "peugeot.png", answer: "peugeot" },
-                { stage: 14, logo: "suzuki.png", answer: "suzuki" },
-                { stage: 15, logo: "kia.png", answer: "kia" },
-                { stage: 16, logo: "chevrolet.png", answer: "chevrolet" },
-                { stage: 17, logo: "mazda.png", answer: "mazda" },
-                { stage: 18, logo: "renault.png", answer: "renault" },
-                { stage: 19, logo: "fiat.png", answer: "fiat" },
-                { stage: 20, logo: "maserati.png", answer: "maserati" }
-            ],
-            vetements: [
-                { stage: 1, logo: "nike.png", answer: "nike" },
-                { stage: 2, logo: "adidas.png", answer: "adidas" },
-                { stage: 3, logo: "puma.png", answer: "puma" },
-                { stage: 4, logo: "gucci.png", answer: "gucci" },
-                { stage: 5, logo: "polo.png", answer: "polo" },
-                { stage: 6, logo: "jordan.png", answer: "jordan" },
-                { stage: 7, logo: "levis.png", answer: "levis" },
-                { stage: 8, logo: "the-north-face.png", answer: "the north face" },
-                { stage: 9, logo: "under-armour.png", answer: "under armour" },
-                { stage: 10, logo: "lacoste.png", answer: "lacoste" },
-                { stage: 11, logo: "louis-vuitton.png", answer: "Louis Vuitton" },
-                { stage: 12, logo: "calvin-klein.png", answer: "calvin klein" },
-                { stage: 13, logo: "converse.png", answer: "converse" },
-                { stage: 14, logo: "burberry.png", answer: "burberry" },
-                { stage: 15, logo: "prada.png", answer: "prada" },
-                { stage: 16, logo: "https://upload.wikimedia.org/wikipedia/commons/6/69/Balenciaga_logo.svg", answer: "balenciaga" },
-                { stage: 17, logo: "https://upload.wikimedia.org/wikipedia/commons/f/f6/Versace_logo.svg", answer: "versace" },
-                { stage: 18, logo: "https://upload.wikimedia.org/wikipedia/commons/0/09/Chanel_logo.svg", answer: "chanel" },
-                { stage: 19, logo: "https://upload.wikimedia.org/wikipedia/commons/b/b2/Fila_logo.svg", answer: "fila" },
-                { stage: 20, logo: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Reebok_logo.svg", answer: "reebok" }
-            ]
-        };
+    <div id="category-screen" class="hidden">
+        <h2>Catégories</h2>
+        <button class="btn" onclick="selectCategory('restaurants')">Restaurants</button>
+        <button class="btn" onclick="selectCategory('voitures')">Voitures</button>
+        <button class="btn" onclick="selectCategory('vetements')">Vêtements</button>
+        <button class="btn" onclick="selectCategory('technologie')">Technologie</button>
+        <button class="btn" onclick="selectCategory('boissons')">Boissons</button>
+    </div>
 
-        // Variables globales
-        let activeCategory = '';
-        let currentStageIndex = 0;
-        let musicPlaying = false;
-        let attemptsLeft = 3;
-        let cooldownInterval = null;
+    <div id="game-screen" class="hidden">
+        <div class="logo-frame"><img id="logo-image" src="" alt="Logo"></div>
+        <input type="text" id="answer-input" class="input-bar" placeholder="RÉPONSE...">
+        <button class="btn" onclick="checkAnswer()">VALIDER</button>
+        <div id="feedback"></div>
+    </div>
+</div>
 
-        // Éléments DOM
-        const menuScreen = document.getElementById('menu-screen');
-        const categoryScreen = document.getElementById('category-screen');
-        const stageScreen = document.getElementById('stage-screen');
-        const gameScreen = document.getElementById('game-screen');
-        const bgMusic = document.getElementById('bg-music');
-        const musicBtn = document.getElementById('music-btn');
+<script>
+    const gameCategories = {
+        restaurants: [
+            { stage: 1, logo: "burger-king.png", answer: "burger king" },
+            { stage: 2, logo: "kfc.png", answer: "kfc" },
+            { stage: 3, logo: "pizza-hut.png", answer: "pizza hut" },
+            { stage: 4, logo: "starbucks.png", answer: "starbucks" },
+            { stage: 5, logo: "dunkin-donuts.png", answer: "dunkin donuts" },
+            { stage: 6, logo: "https://upload.wikimedia.org/wikipedia/en/b/b3/Taco_Bell_2016.svg", answer: "taco bell" },
+            { stage: 7, logo: "https://upload.wikimedia.org/wikipedia/en/d/d2/Pizza_Hut_logo.svg", answer: "pizza hut" },
+            { stage: 8, logo: "https://upload.wikimedia.org/wikipedia/en/3/32/Wendy%27s_full_logo_2012.svg", answer: "wendys" },
+            { stage: 9, logo: "https://upload.wikimedia.org/wikipedia/en/b/b3/Taco_Bell_2016.svg", answer: "taco bell" },
+            { stage: 10, logo: "https://upload.wikimedia.org/wikipedia/en/b/b8/Dunkin%27_Donuts_logo.svg", answer: "dunkin" },
+            { stage: 11, logo: "https://upload.wikimedia.org/wikipedia/en/3/3b/Chipotle_Mexican_Grill_logo.svg", answer: "chipotle" },
+            { stage: 12, logo: "https://upload.wikimedia.org/wikipedia/commons/a/ae/Dairy_Queen_logo.svg", answer: "dairy queen" },
+            { stage: 13, logo: "https://upload.wikimedia.org/wikipedia/en/4/42/Papa_John%27s_Pizza_logo.svg", answer: "papa johns" },
+            { stage: 14, logo: "https://upload.wikimedia.org/wikipedia/en/c/c5/Nandos_logo.svg", answer: "nandos" },
+            { stage: 15, logo: "https://upload.wikimedia.org/wikipedia/commons/8/80/Five_Guys_logo.svg", answer: "five guys" },
+            { stage: 16, logo: "https://upload.wikimedia.org/wikipedia/en/0/07/Shake_Shack_logo.svg", answer: "shake shack" },
+            { stage: 17, logo: "https://upload.wikimedia.org/wikipedia/commons/0/03/In-N-Out_Burger_logo.svg", answer: "in n out" },
+            { stage: 18, logo: "https://upload.wikimedia.org/wikipedia/en/c/ca/Panda_Express_logo.svg", answer: "panda express" },
+            { stage: 19, logo: "https://upload.wikimedia.org/wikipedia/commons/5/57/Tim_Hortons_logo.svg", answer: "tim hortons" },
+            { stage: 20, logo: "https://upload.wikimedia.org/wikipedia/commons/f/f6/Hard_Rock_Cafe_Logo.svg", answer: "hard rock cafe" }
+        ],
+        voitures: [
+            { stage: 1, logo: "bmw.png", answer: "bmw" },
+            { stage: 2, logo: "ferrari.png", answer: "ferrari" },
+            { stage: 3, logo: "tesla.png", answer: "tesla" },
+            { stage: 4, logo: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Porsche_emblem.svg", answer: "porsche" },
+            { stage: 5, logo: "https://upload.wikimedia.org/wikipedia/commons/9/90/Mercedes-Logo.svg", answer: "mercedes" },
+            { stage: 6, logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg", answer: "bmw" },
+            { stage: 7, logo: "https://upload.wikimedia.org/wikipedia/commons/8/8c/Audi_logo.svg", answer: "audi" },
+            { stage: 8, logo: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Volkswagen_logo_2019.svg", answer: "volkswagen" },
+            { stage: 9, logo: "https://upload.wikimedia.org/wikipedia/en/d/df/Lamborghini_Logo.svg", answer: "lamborghini" },
+            { stage: 10, logo: "https://upload.wikimedia.org/wikipedia/en/d/df/Ferrari_logo.svg", answer: "ferrari" },
+            { stage: 11, logo: "https://upload.wikimedia.org/wikipedia/commons/9/90/Mercedes-Logo.svg", answer: "mercedes" },
+            { stage: 12, logo: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Porsche_emblem.svg", answer: "porsche" },
+            { stage: 13, logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg", answer: "bmw" },
+            { stage: 14, logo: "https://upload.wikimedia.org/wikipedia/commons/8/8c/Audi_logo.svg", answer: "audi" },
+            { stage: 15, logo: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Volkswagen_logo_2019.svg", answer: "volkswagen" },
+            { stage: 16, logo: "https://upload.wikimedia.org/wikipedia/en/d/df/Lamborghini_Logo.svg", answer: "lamborghini" },
+            { stage: 17, logo: "https://upload.wikimedia.org/wikipedia/en/d/df/Ferrari_logo.svg", answer: "ferrari" },
+            { stage: 18, logo: "https://upload.wikimedia.org/wikipedia/commons/9/90/Mercedes-Logo.svg", answer: "mercedes" },
+            { stage: 19, logo: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Porsche_emblem.svg", answer: "porsche" },
+            { stage: 20, logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/BMW.svg", answer: "bmw" }
+        ],
+        vetements: [
+            { stage: 1, logo: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg", answer: "nike" },
+            { stage: 2, logo: "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg", answer: "adidas" },
+            { stage: 3, logo: "https://upload.wikimedia.org/wikipedia/commons/7/75/Levi%27s_logo.svg", answer: "levis" },
+            { stage: 4, logo: "https://upload.wikimedia.org/wikipedia/en/f/f6/Puma_logo.svg", answer: "puma" },
+            { stage: 5, logo: "https://upload.wikimedia.org/wikipedia/commons/2/24/Zara_Logo.svg", answer: "zara" },
+            { stage: 6, logo: "https://upload.wikimedia.org/wikipedia/commons/5/53/H%26M-Logo.svg", answer: "h&m" },
+            { stage: 7, logo: "https://upload.wikimedia.org/wikipedia/commons/3/3a/Gucci_Logo.svg", answer: "gucci" },
+            { stage: 8, logo: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Louis_Vuitton_logo_and_wordmark.svg", answer: "louis vuitton" },
+            { stage: 9, logo: "https://upload.wikimedia.org/wikipedia/en/b/b3/Chanel_logo_interlocking_cs.svg", answer: "chanel" },
+            { stage: 10, logo: "https://upload.wikimedia.org/wikipedia/commons/b/b8/Dior_Logo.svg", answer: "dior" },
+            { stage: 11, logo: "https://upload.wikimedia.org/wikipedia/commons/4/4c/Prada-Logo.svg", answer: "prada" },
+            { stage: 12, logo: "https://upload.wikimedia.org/wikipedia/commons/f/fd/Rolex_logo.svg", answer: "rolex" },
+            { stage: 13, logo: "https://upload.wikimedia.org/wikipedia/commons/a/ab/Herm%C3%A8s_Logo.svg", answer: "hermes" },
+            { stage: 14, logo: "https://upload.wikimedia.org/wikipedia/commons/8/8b/Burberry_logo.svg", answer: "burberry" },
+            { stage: 15, logo: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Balenciaga_Logo.svg", answer: "balenciaga" },
+            { stage: 16, logo: "https://upload.wikimedia.org/wikipedia/commons/d/d4/Versace_logo.svg", answer: "versace" },
+            { stage: 17, logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Ralph_Lauren_logo.svg", answer: "ralph lauren" },
+            { stage: 18, logo: "https://upload.wikimedia.org/wikipedia/commons/8/87/Tommy_Hilfiger_Logo.svg", answer: "tommy hilfiger" },
+            { stage: 19, logo: "https://upload.wikimedia.org/wikipedia/commons/b/b2/Fila_logo.svg", answer: "fila" },
+            { stage: 20, logo: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Reebok_logo.svg", answer: "reebok" }
+        ],
+        technologie: [
+            { stage: 1, logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg", answer: "google" },
+            { stage: 2, logo: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg", answer: "apple" },
+            { stage: 3, logo: "https://upload.wikimedia.org/wikipedia/commons/9/96/Microsoft_logo_%282012%29.svg", answer: "microsoft" },
+            { stage: 4, logo: "https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg", answer: "samsung" },
+            { stage: 5, logo: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Sony_logo.svg", answer: "sony" },
+            { stage: 6, logo: "https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg", answer: "netflix" },
+            { stage: 7, logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg", answer: "amazon" },
+            { stage: 8, logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg", answer: "ibm" },
+            { stage: 9, logo: "https://upload.wikimedia.org/wikipedia/commons/2/29/HP_New_Logo_2D.svg", answer: "hp" },
+            { stage: 10, logo: "https://upload.wikimedia.org/wikipedia/commons/1/18/Dell_logo_2016.svg", answer: "dell" },
+            { stage: 11, logo: "https://upload.wikimedia.org/wikipedia/commons/d/d7/AsusTek-black-logo.svg", answer: "asus" },
+            { stage: 12, logo: "https://upload.wikimedia.org/wikipedia/commons/0/00/Acer_2011.svg", answer: "acer" },
+            { stage: 13, logo: "https://upload.wikimedia.org/wikipedia/commons/b/b8/Lenovo_logo_2015.svg", answer: "lenovo" },
+            { stage: 14, logo: "https://upload.wikimedia.org/wikipedia/commons/8/8c/Panasonic_logo_%28Blue%29.svg", answer: "panasonic" },
+            { stage: 15, logo: "https://upload.wikimedia.org/wikipedia/commons/b/bf/LG_logo_%282015%29.svg", answer: "lg" },
+            { stage: 16, logo: "https://upload.wikimedia.org/wikipedia/commons/0/02/Nokia_wordmark.svg", answer: "nokia" },
+            { stage: 17, logo: "https://upload.wikimedia.org/wikipedia/commons/e/e0/Motorola_wordmark_2013.svg", answer: "motorola" },
+            { stage: 18, logo: "https://upload.wikimedia.org/wikipedia/commons/e/e5/Huawei_Logo.svg", answer: "huawei" },
+            { stage: 19, logo: "https://upload.wikimedia.org/wikipedia/commons/2/29/Xiaomi_logo.svg", answer: "xiaomi" },
+            { stage: 20, logo: "https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg", answer: "spotify" }
+        ],
+        boissons: [
+            { stage: 1, logo: "coca-cola.png", answer: "coca cola" },
+            { stage: 2, logo: "pepsi.png", answer: "pepsi" },
+            { stage: 3, logo: "fanta.png", answer: "fanta" },
+            { stage: 4, logo: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Sprite_logo_2022.svg", answer: "sprite" },
+            { stage: 5, logo: "https://upload.wikimedia.org/wikipedia/en/f/f5/RedBull_logo.svg", answer: "red bull" },
+            { stage: 6, logo: "https://upload.wikimedia.org/wikipedia/commons/4/41/Monster_Energy_logo.svg", answer: "monster" },
+            { stage: 7, logo: "https://upload.wikimedia.org/wikipedia/commons/0/07/Lipton_logo_2014.svg", answer: "lipton" },
+            { stage: 8, logo: "https://upload.wikimedia.org/wikipedia/commons/7/74/Nespresso_logo.svg", answer: "nespresso" },
+            { stage: 9, logo: "https://upload.wikimedia.org/wikipedia/commons/7/7a/Nescafe_logo.svg", answer: "nescafe" },
+            { stage: 10, logo: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Evian_logo.svg", answer: "evian" },
+            { stage: 11, logo: "https://upload.wikimedia.org/wikipedia/commons/2/25/Volvic_logo.svg", answer: "volvic" },
+            { stage: 12, logo: "https://upload.wikimedia.org/wikipedia/commons/6/63/Perrier_logo.svg", answer: "perrier" },
+            { stage: 13, logo: "https://upload.wikimedia.org/wikipedia/commons/2/22/Heineken_logo.svg", answer: "heineken" },
+            { stage: 14, logo: "https://upload.wikimedia.org/wikipedia/commons/f/fd/Guinness_Logo.svg", answer: "guinness" },
+            { stage: 15, logo: "https://upload.wikimedia.org/wikipedia/commons/0/02/Gatorade_logo.svg", answer: "gatorade" },
+            { stage: 16, logo: "https://upload.wikimedia.org/wikipedia/commons/2/23/Powerade_logo.svg", answer: "powerade" },
+            { stage: 17, logo: "https://upload.wikimedia.org/wikipedia/commons/8/87/Oasis_logo_2020.svg", answer: "oasis" },
+            { stage: 18, logo: "https://upload.wikimedia.org/wikipedia/commons/c/ce/Schweppes_logo.svg", answer: "schweppes" },
+            { stage: 19, logo: "https://upload.wikimedia.org/wikipedia/commons/6/68/Orangina_logo.svg", answer: "orangina" },
+            { stage: 20, logo: "https://upload.wikimedia.org/wikipedia/commons/3/30/Dr_Pepper_logo.svg", answer: "dr pepper" }
+        ]
+    };
 
-        // Navigation
-        function showMenu() {
-            hideAll(); menuScreen.classList.remove('hidden');
+    let activeCat = '', currentStage = 0;
+
+    function showCategories() {
+        document.getElementById('menu-screen').classList.add('hidden');
+        document.getElementById('category-screen').classList.remove('hidden');
+    }
+
+    function selectCategory(cat) {
+        activeCat = cat;
+        currentStage = 0;
+        document.getElementById('category-screen').classList.add('hidden');
+        document.getElementById('game-screen').classList.remove('hidden');
+        loadLevel();
+    }
+
+    function loadLevel() {
+        const level = gameCategories[activeCat][currentStage];
+        document.getElementById('logo-image').src = level.logo;
+    }
+
+    function checkAnswer() {
+        const input = document.getElementById('answer-input').value.toLowerCase();
+        if (input === gameCategories[activeCat][currentStage].answer) {
+            currentStage++;
+            if (currentStage < gameCategories[activeCat].length) loadLevel();
+            else alert("Catégorie terminée !");
+            document.getElementById('answer-input').value = "";
+        } else {
+            alert("Essaie encore !");
         }
-
-        function showCategories() {
-            hideAll(); categoryScreen.classList.remove('hidden');
-        }
-
-        function hideAll() {
-            menuScreen.classList.add('hidden');
-            categoryScreen.classList.add('hidden');
-            stageScreen.classList.add('hidden');
-            gameScreen.classList.add('hidden');
-        }
-
-        // Sélection de catégorie
-        function selectCategory(cat) {
-            activeCategory = cat;
-            document.getElementById('stage-title-cat').innerText = cat.toUpperCase();
-            showStagesList();
-        }
-
-        function getUnlockedStage(cat) {
-            return parseInt(localStorage.getItem(`maxStage_${cat}`)) || 1;
-        }
-
-        function showStagesList() {
-            hideAll(); stageScreen.classList.remove('hidden');
-            const grid = document.getElementById('stages-grid');
-            grid.innerHTML = '';
-            
-            const maxUnlocked = getUnlockedStage(activeCategory);
-            const data = gameCategories[activeCategory];
-
-            data.forEach((level, index) => {
-                const card = document.createElement('div');
-                card.className = 'stage-card';
-                
-                const isCompleted = localStorage.getItem(`stage_${activeCategory}_${level.stage}_done`) === "true";
-                const isUnlocked = level.stage <= maxUnlocked;
-
-                if (isCompleted) {
-                    card.classList.add('completed');
-                    card.innerHTML = `<div class="stage-num">${level.stage}</div><i class="fa-solid fa-check"></i>`;
-                } else if (isUnlocked) {
-                    card.classList.add('unlocked');
-                    card.innerHTML = `<div class="stage-num">${level.stage}</div>`;
-                } else {
-                    card.classList.add('locked');
-                    card.innerHTML = `<div class="stage-num"><i class="fa-solid fa-lock"></i></div>`;
-                }
-
-                if (isUnlocked) card.onclick = () => launchGame(index);
-                grid.appendChild(card);
-            });
-        }
-
-        // Lancement Jeu
-        function launchGame(index) {
-            currentStageIndex = index;
-            hideAll(); gameScreen.classList.remove('hidden');
-            
-            if (!musicPlaying) toggleMusic();
-
-            const level = gameCategories[activeCategory][index];
-            document.getElementById('game-stage-title').innerText = `Niveau ${level.stage}`;
-            document.getElementById('logo-image').src = level.logo;
-            document.getElementById('answer-input').value = '';
-            document.getElementById('logo-frame').classList.remove('success-glow', 'shake');
-            
-            if (!checkCooldown()) {
-                attemptsLeft = 3;
-                updateAttemptsUI();
-                enableInputs();
-                document.getElementById('feedback').innerText = '';
-                document.getElementById('answer-input').focus();
-            }
-        }
-
-        function updateAttemptsUI() {
-            const container = document.getElementById('attempts-container');
-            container.innerHTML = '';
-            for (let i = 1; i <= 3; i++) {
-                const heart = document.createElement('i');
-                heart.className = i <= attemptsLeft ? 'fa-solid fa-heart heart-icon' : 'fa-solid fa-heart heart-icon lost';
-                container.appendChild(heart);
-            }
-        }
-
-        function disableInputs() {
-            document.getElementById('answer-input').disabled = true;
-            document.getElementById('validate-btn').disabled = true;
-        }
-
-        function enableInputs() {
-            document.getElementById('answer-input').disabled = false;
-            document.getElementById('validate-btn').disabled = false;
-        }
-
-        // Système de Cooldown propre à la catégorie
-        function checkCooldown() {
-            const cooldownEnd = localStorage.getItem(`cooldown_${activeCategory}`);
-            if (cooldownEnd) {
-                const timeLeft = parseInt(cooldownEnd) - Date.now();
-                if (timeLeft > 0) {
-                    startCooldownTimer();
-                    return true;
-                } else {
-                    localStorage.removeItem(`cooldown_${activeCategory}`);
-                }
-            }
-            return false;
-        }
-
-        function startCooldownTimer() {
-            clearInterval(cooldownInterval);
-            disableInputs();
-            attemptsLeft = 0; updateAttemptsUI();
-            const feedback = document.getElementById('feedback');
-
-            function updateTimer() {
-                const end = localStorage.getItem(`cooldown_${activeCategory}`);
-                if (!end) return endCooldown();
-                
-                const remaining = parseInt(end) - Date.now();
-                if (remaining <= 0) {
-                    endCooldown();
-                } else {
-                    const m = Math.floor(remaining / 60000);
-                    const s = Math.floor((remaining % 60000) / 1000);
-                    feedback.style.color = 'var(--accent)';
-                    feedback.innerHTML = `Bloqué ! Reviens dans ${m}:${s < 10 ? '0'+s : s}`;
-                }
-            }
-            updateTimer();
-            cooldownInterval = setInterval(updateTimer, 1000);
-        }
-
-        function endCooldown() {
-            clearInterval(cooldownInterval);
-            localStorage.removeItem(`cooldown_${activeCategory}`);
-            attemptsLeft = 3; updateAttemptsUI(); enableInputs();
-            document.getElementById('feedback').innerText = 'Vies rechargées !';
-            document.getElementById('feedback').style.color = 'var(--primary)';
-        }
-
-        // Validation 
-        function normalizeString(str) {
-            return str.toLowerCase().replace(/[^a-z0-9]/g, '');
-        }
-
-        function checkAnswer() {
-            if (localStorage.getItem(`cooldown_${activeCategory}`)) return;
-
-            const currentLevel = gameCategories[activeCategory][currentStageIndex];
-            const userAnswerRaw = document.getElementById('answer-input').value;
-            const userAnswer = normalizeString(userAnswerRaw);
-            const correctAnswer = normalizeString(currentLevel.answer);
-            const frame = document.getElementById('logo-frame');
-            const feedback = document.getElementById('feedback');
-
-            frame.classList.remove('shake', 'success-glow');
-
-            if (userAnswer === correctAnswer) {
-                feedback.style.color = 'var(--success)';
-                feedback.innerText = 'Correct !';
-                frame.classList.add('success-glow');
-
-                localStorage.setItem(`stage_${activeCategory}_${currentLevel.stage}_done`, "true");
-                const currentMax = getUnlockedStage(activeCategory);
-                if (currentLevel.stage >= currentMax && currentLevel.stage < 20) {
-                    localStorage.setItem(`maxStage_${activeCategory}`, currentLevel.stage + 1);
-                }
-
-                setTimeout(() => {
-                    if (currentStageIndex + 1 < gameCategories[activeCategory].length) {
-                        launchGame(currentStageIndex + 1);
-                    } else {
-                        alert('Félicitations, vous avez terminé cette catégorie !');
-                        showStagesList();
-                    }
-                }, 1000);
-
-            } else {
-                attemptsLeft--;
-                updateAttemptsUI();
-                frame.classList.add('shake');
-
-                if (attemptsLeft <= 0) {
-                    const cooldownTime = Date.now() + 5 * 60 * 1000;
-                    localStorage.setItem(`cooldown_${activeCategory}`, cooldownTime);
-                    startCooldownTimer();
-                } else {
-                    feedback.style.color = 'var(--error)';
-                    feedback.innerText = `Faux ! ${attemptsLeft} essai(s) restant(s).`;
-                }
-                setTimeout(() => frame.classList.remove('shake'), 400);
-            }
-        }
-
-        document.getElementById('answer-input').addEventListener("keypress", function(e) {
-            if (e.key === "Enter") { e.preventDefault(); checkAnswer(); }
-        });
-
-        function toggleMusic() {
-            if (musicPlaying) {
-                bgMusic.pause();
-                musicBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
-                musicBtn.style.background = 'rgba(255, 255, 255, 0.05)';
-            } else {
-                bgMusic.volume = 0.3;
-                bgMusic.play().catch(e => console.log("Clic requis pour l'audio"));
-                musicBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-                musicBtn.style.background = 'var(--primary)';
-                musicBtn.style.color = '#000';
-            }
-            musicPlaying = !musicPlaying;
-        }
-    </script>
+    }
+</script>
 </body>
 </html>
