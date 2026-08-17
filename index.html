@@ -11,34 +11,93 @@
     
     <style>
         :root {
-            /* Nouvelle palette Violette */
             --primary: #8B5CFF;        
             --primary-light: #B56CFF;
             --primary-hover-1: #A56BFF;
             --primary-hover-2: #C58AFF;
             --primary-border: #D5B8FF;
             
-            /* Lueurs (Glow) */
             --primary-glow: rgba(139, 92, 255, 0.55);
             --primary-glow-hover: rgba(181, 108, 255, 0.8);
             
             --secondary: #3B167D;
-            --accent: #FFD21F; /* Or pour les récompenses et succès */
+            --accent: #FFD21F; 
             
             --bg-dark: #05050d;        
             --panel-bg: transparent; 
             
-            /* Textes */
             --text-main: #FFFFFF;
             --text-muted: #E9D7FF;
             --text-level: #D8B4FF;
             
-            --success: #FFD21F; /* Succès en or/jaune */
+            --success: #FFD21F; 
             --error: #ff3366;   
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        /* =========================
+           LOADING SCREEN
+           ========================= */
+        #loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-dark);
+            background-image: url("ChatGPT Image 13 août 2026, 21_49_01.png");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+        }
 
+        .loading-hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loading-content { text-align: center; color: var(--text-main); }
+        .loading-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 0 0 15px var(--primary-glow);
+            animation: pulseGlow 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { text-shadow: 0 0 10px var(--primary-glow); }
+            50% { text-shadow: 0 0 25px var(--primary-light); }
+        }
+
+        .loading-bar {
+            width: 300px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 20px auto;
+            border: 1px solid var(--primary);
+        }
+
+        #loading-progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            box-shadow: 0 0 15px var(--primary-glow);
+            transition: width 0.2s linear;
+        }
+
+        #loading-percent { font-family: 'Orbitron', sans-serif; margin-top: 10px; }
+
+        /* Styles existants conservés */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Rajdhani', sans-serif;
             background-color: var(--bg-dark);
@@ -54,227 +113,59 @@
             justify-content: center;
             overflow: hidden;
         }
-
-        .container {
-            background: transparent;
-            width: 90%;
-            max-width: 600px;
-            padding: 40px;
-            position: relative;
-            z-index: 2;
-            text-align: center;
-        }
-
-        /* Titres avec texte blanc et lueur violette */
-        h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 2.8rem;
-            letter-spacing: 2px;
-            color: var(--text-main);
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            text-shadow: 0 0 15px rgba(139, 92, 255, 0.7);
-        }
-
-        h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            color: var(--text-main);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            text-shadow: 0 0 12px rgba(139, 92, 255, 0.6);
-        }
-
+        .container { background: transparent; width: 90%; max-width: 600px; padding: 40px; position: relative; z-index: 2; text-align: center; }
+        h1 { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 2.8rem; letter-spacing: 2px; color: var(--text-main); margin-bottom: 10px; text-transform: uppercase; text-shadow: 0 0 15px rgba(139, 92, 255, 0.7); }
+        h2 { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; color: var(--text-main); margin-bottom: 20px; text-transform: uppercase; text-shadow: 0 0 12px rgba(139, 92, 255, 0.6); }
         p.subtitle { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 30px; }
-
-        /* BOUTONS PRINCIPAUX */
-        .btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: var(--text-main);
-            border: 1px solid var(--primary-border);
-            padding: 14px 28px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1rem;
-            font-weight: 900;
-            border-radius: 12px;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.3s ease;
-            letter-spacing: 1px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 0 18px var(--primary-glow);
-            width: 100%;
-            margin-bottom: 15px;
-        }
-
-        .btn:hover {
-            background: linear-gradient(135deg, var(--primary-hover-1), var(--primary-hover-2));
-            box-shadow: 0 0 28px var(--primary-glow-hover);
-            transform: translateY(-2px);
-            color: var(--text-main);
-        }
-
-        .btn:disabled {
-            background: rgba(139, 92, 255, 0.1);
-            border-color: rgba(139, 92, 255, 0.2);
-            color: rgba(255, 255, 255, 0.4);
-            cursor: not-allowed;
-            box-shadow: none;
-            transform: none !important;
-        }
-
-        /* BOUTONS SECONDAIRES */
-        .btn-secondary {
-            background: rgba(139, 92, 255, 0.08);
-            border: 1px solid rgba(139, 92, 255, 0.3);
-            color: var(--text-main);
-            box-shadow: none;
-            margin-bottom: 0;
-            width: auto;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(139, 92, 255, 0.25);
-            border-color: var(--primary-light);
-            box-shadow: 0 0 15px var(--primary-glow);
-        }
-
-        /* Grille des Stages */
-        .stages-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 30px;
-            max-height: 350px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
+        .btn { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: var(--text-main); border: 1px solid var(--primary-border); padding: 14px 28px; font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 900; border-radius: 12px; cursor: pointer; text-transform: uppercase; transition: all 0.3s ease; letter-spacing: 1px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 0 18px var(--primary-glow); width: 100%; margin-bottom: 15px; }
+        .btn:hover { background: linear-gradient(135deg, var(--primary-hover-1), var(--primary-hover-2)); box-shadow: 0 0 28px var(--primary-glow-hover); transform: translateY(-2px); color: var(--text-main); }
+        .btn:disabled { background: rgba(139, 92, 255, 0.1); border-color: rgba(139, 92, 255, 0.2); color: rgba(255, 255, 255, 0.4); cursor: not-allowed; box-shadow: none; transform: none !important; }
+        .btn-secondary { background: rgba(139, 92, 255, 0.08); border: 1px solid rgba(139, 92, 255, 0.3); color: var(--text-main); box-shadow: none; width: auto; }
+        .btn-secondary:hover { background: rgba(139, 92, 255, 0.25); border-color: var(--primary-light); box-shadow: 0 0 15px var(--primary-glow); }
+        .stages-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 30px; max-height: 350px; overflow-y: auto; padding-right: 5px; }
         .stages-grid::-webkit-scrollbar { width: 6px; }
         .stages-grid::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); }
         .stages-grid::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
-
-        .stage-card {
-            background: rgba(139, 92, 255, 0.05);
-            border: 1px solid rgba(139, 92, 255, 0.15);
-            border-radius: 12px;
-            padding: 15px 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .stage-card .stage-num {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--text-level);
-        }
-
-        .stage-card.unlocked {
-            border-color: rgba(139, 92, 255, 0.5);
-            background: rgba(139, 92, 255, 0.15);
-        }
-        
-        .stage-card.unlocked:hover {
-            border-color: var(--primary-light);
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px var(--primary-glow);
-        }
-        
-        .stage-card.completed {
-            border-color: var(--accent); /* Bordure or pour complété */
-            background: rgba(255, 210, 31, 0.1); /* Fond légèrement or */
-        }
-        
+        .stage-card { background: rgba(139, 92, 255, 0.05); border: 1px solid rgba(139, 92, 255, 0.15); border-radius: 12px; padding: 15px 5px; cursor: pointer; transition: all 0.3s ease; }
+        .stage-card .stage-num { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text-level); }
+        .stage-card.unlocked { border-color: rgba(139, 92, 255, 0.5); background: rgba(139, 92, 255, 0.15); }
+        .stage-card.unlocked:hover { border-color: var(--primary-light); transform: scale(1.05); box-shadow: 0 5px 20px var(--primary-glow); }
+        .stage-card.completed { border-color: var(--accent); background: rgba(255, 210, 31, 0.1); }
         .stage-card.completed .stage-num { color: var(--accent); text-shadow: 0 0 8px rgba(255, 210, 31, 0.4); }
         .stage-card.completed i { color: var(--accent); text-shadow: 0 0 8px rgba(255, 210, 31, 0.4); }
-        
         .stage-card.locked { opacity: 0.4; cursor: not-allowed; }
         .stage-card.locked .stage-num { color: rgba(233, 215, 255, 0.5); }
-
-        /* Zone d'affichage du Logo */
-        .logo-frame {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            width: 220px;
-            height: 220px;
-            margin: 0 auto 15px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 10px 25px rgba(59, 22, 125, 0.5); /* Ombre violet foncé */
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-        }
+        .logo-frame { background: white; border-radius: 20px; padding: 20px; width: 220px; height: 220px; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center; box-shadow: inset 0 0 20px rgba(0,0,0,0.1), 0 10px 25px rgba(59, 22, 125, 0.5); border: 2px solid transparent; transition: all 0.3s ease; }
         .logo-frame img { max-width: 100%; max-height: 100%; object-fit: contain; }
-
         .input-group { margin-bottom: 25px; width: 100%; }
-        .input-bar {
-            width: 100%;
-            background: rgba(13, 12, 28, 0.8);
-            border: 2px solid rgba(139, 92, 255, 0.3);
-            border-radius: 14px;
-            padding: 16px 24px;
-            font-size: 1.2rem;
-            color: var(--text-main);
-            font-family: 'Rajdhani', sans-serif;
-            font-weight: 600;
-            text-align: center;
-            outline: none;
-            transition: all 0.3s ease;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .input-bar:focus {
-            border-color: var(--primary-light);
-            box-shadow: 0 0 20px var(--primary-glow);
-        }
-        
+        .input-bar { width: 100%; background: rgba(13, 12, 28, 0.8); border: 2px solid rgba(139, 92, 255, 0.3); border-radius: 14px; padding: 16px 24px; font-size: 1.2rem; color: var(--text-main); font-family: 'Rajdhani', sans-serif; font-weight: 600; text-align: center; outline: none; transition: all 0.3s ease; letter-spacing: 2px; text-transform: uppercase; }
+        .input-bar:focus { border-color: var(--primary-light); box-shadow: 0 0 20px var(--primary-glow); }
         .input-bar::placeholder { color: rgba(233, 215, 255, 0.4); }
-
-        .attempts-container {
-            display: flex; justify-content: center; gap: 12px; margin-bottom: 20px;
-        }
-        .heart-icon {
-            font-size: 1.6rem; color: var(--primary-light); text-shadow: 0 0 10px var(--primary-glow);
-            transition: all 0.3s ease;
-        }
+        .attempts-container { display: flex; justify-content: center; gap: 12px; margin-bottom: 20px; }
+        .heart-icon { font-size: 1.6rem; color: var(--primary-light); text-shadow: 0 0 10px var(--primary-glow); transition: all 0.3s ease; }
         .heart-icon.lost { color: rgba(139, 92, 255, 0.2); text-shadow: none; transform: scale(0.8); }
-
         #feedback { font-size: 1.1rem; font-weight: 700; min-height: 28px; margin-bottom: 15px; text-transform: uppercase; }
-
-        .music-control {
-            position: absolute; top: 20px; right: 20px;
-            background: rgba(139, 92, 255, 0.1); border: 1px solid rgba(139, 92, 255, 0.3);
-            color: var(--text-main); width: 44px; height: 44px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: all 0.3s ease; z-index: 10;
-        }
-        .music-control:hover {
-            background: var(--primary); border-color: var(--primary-border); color: var(--text-main);
-            box-shadow: 0 0 15px var(--primary-glow); transform: rotate(15deg);
-        }
-
+        .music-control { position: absolute; top: 20px; right: 20px; background: rgba(139, 92, 255, 0.1); border: 1px solid rgba(139, 92, 255, 0.3); color: var(--text-main); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; z-index: 10; }
+        .music-control:hover { background: var(--primary); border-color: var(--primary-border); color: var(--text-main); box-shadow: 0 0 15px var(--primary-glow); transform: rotate(15deg); }
         .hidden { display: none !important; }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-10px); }
-            40%, 80% { transform: translateX(10px); }
-        }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-10px); } 40%, 80% { transform: translateX(10px); } }
         .shake { animation: shake 0.4s ease; border-color: var(--error); box-shadow: 0 0 25px rgba(255, 51, 102, 0.4); }
-        
-        /* Glow jaune/or pour les réussites */
         .success-glow { border-color: var(--success); box-shadow: 0 0 30px rgba(255, 210, 31, 0.6); }
     </style>
 </head>
 <body>
+
+    <!-- LOADING SCREEN -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <h1 class="loading-title">LOGO QUIZ</h1>
+            <p class="loading-text">Chargement...</p>
+            <div class="loading-bar">
+                <div id="loading-progress"></div>
+            </div>
+            <div id="loading-percent">0%</div>
+        </div>
+    </div>
 
     <audio id="bg-music" loop preload="auto">
         <source src="musique.mp3" type="audio/mpeg">
@@ -337,6 +228,32 @@
     </div>
 
     <script>
+        /* --- Loading Screen Logic --- */
+        function startLoadingScreen() {
+            const progressBar = document.getElementById('loading-progress');
+            const percentText = document.getElementById('loading-percent');
+            const loadingScreen = document.getElementById('loading-screen');
+            let progress = 0;
+            const duration = 2500; // 2.5 secondes
+            const intervalTime = duration / 100;
+
+            const timer = setInterval(() => {
+                progress += 1;
+                progressBar.style.width = progress + '%';
+                percentText.innerText = progress + '%';
+
+                if (progress >= 100) {
+                    clearInterval(timer);
+                    setTimeout(() => {
+                        loadingScreen.classList.add('loading-hidden');
+                    }, 300);
+                }
+            }, intervalTime);
+        }
+
+        window.addEventListener('load', startLoadingScreen);
+
+        /* --- Ton Code Existant --- */
         const gameCategories = {
             restaurants: [
                 { stage: 1, logo: "mcdonalds.png", answer: "mcdonalds" },
@@ -591,81 +508,59 @@
         function endCooldown() {
             clearInterval(cooldownInterval);
             localStorage.removeItem(`cooldown_${activeCategory}`);
-            attemptsLeft = 3; updateAttemptsUI(); enableInputs();
-            document.getElementById('feedback').innerText = 'Vies rechargées !';
-            document.getElementById('feedback').style.color = 'var(--primary-light)';
+            attemptsLeft = 3;
+            updateAttemptsUI();
+            enableInputs();
+            document.getElementById('feedback').innerText = '';
         }
 
         function normalizeString(str) {
-            return str.toLowerCase().replace(/[^a-z0-9]/g, '');
+            return str.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, '').trim();
         }
 
         function checkAnswer() {
-            if (localStorage.getItem(`cooldown_${activeCategory}`)) return;
-
-            const currentLevel = gameCategories[activeCategory][currentStageIndex];
-            const userAnswerRaw = document.getElementById('answer-input').value;
-            const userAnswer = normalizeString(userAnswerRaw);
-            const correctAnswer = normalizeString(currentLevel.answer);
-            const frame = document.getElementById('logo-frame');
+            const input = document.getElementById('answer-input');
             const feedback = document.getElementById('feedback');
+            const level = gameCategories[activeCategory][currentStageIndex];
 
-            frame.classList.remove('shake', 'success-glow');
-
-            if (userAnswer === correctAnswer) {
+            if (normalizeString(input.value) === normalizeString(level.answer)) {
                 feedback.style.color = 'var(--success)';
                 feedback.innerText = 'Correct !';
-                frame.classList.add('success-glow');
-
-                localStorage.setItem(`stage_${activeCategory}_${currentLevel.stage}_done`, "true");
-                const currentMax = getUnlockedStage(activeCategory);
-                if (currentLevel.stage >= currentMax && currentLevel.stage < 20) {
-                    localStorage.setItem(`maxStage_${activeCategory}`, currentLevel.stage + 1);
-                }
-
-                setTimeout(() => {
-                    if (currentStageIndex + 1 < gameCategories[activeCategory].length) {
-                        launchGame(currentStageIndex + 1);
-                    } else {
-                        alert('Félicitations, vous avez terminé cette catégorie !');
-                        showStagesList();
-                    }
-                }, 1000);
-
+                document.getElementById('logo-frame').classList.add('success-glow');
+                localStorage.setItem(`stage_${activeCategory}_${level.stage}_done`, "true");
+                
+                let nextMax = parseInt(localStorage.getItem(`maxStage_${activeCategory}`)) || 1;
+                if (level.stage === nextMax) localStorage.setItem(`maxStage_${activeCategory}`, nextMax + 1);
+                
+                disableInputs();
+                setTimeout(showStagesList, 1500);
             } else {
                 attemptsLeft--;
                 updateAttemptsUI();
-                frame.classList.add('shake');
-
+                input.classList.add('shake');
+                setTimeout(() => input.classList.remove('shake'), 400);
+                
                 if (attemptsLeft <= 0) {
-                    const cooldownTime = Date.now() + 5 * 60 * 1000;
-                    localStorage.setItem(`cooldown_${activeCategory}`, cooldownTime);
+                    feedback.style.color = 'var(--error)';
+                    feedback.innerText = 'Échec !';
+                    localStorage.setItem(`cooldown_${activeCategory}`, Date.now() + 60000); // 1 minute
                     startCooldownTimer();
                 } else {
                     feedback.style.color = 'var(--error)';
-                    feedback.innerText = `Faux ! ${attemptsLeft} essai(s) restant(s).`;
+                    feedback.innerText = 'Faux, réessayez !';
                 }
-                setTimeout(() => frame.classList.remove('shake'), 400);
             }
         }
 
-        document.getElementById('answer-input').addEventListener("keypress", function(e) {
-            if (e.key === "Enter") { e.preventDefault(); checkAnswer(); }
-        });
-
         function toggleMusic() {
+            musicPlaying = !musicPlaying;
             if (musicPlaying) {
+                bgMusic.play();
+                musicBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+            } else {
                 bgMusic.pause();
                 musicBtn.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
-                musicBtn.style.background = 'rgba(139, 92, 255, 0.1)';
-            } else {
-                bgMusic.volume = 0.3;
-                bgMusic.play().catch(e => console.log("Clic requis pour l'audio"));
-                musicBtn.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
-                musicBtn.style.background = 'var(--primary)';
-                musicBtn.style.color = 'var(--text-main)';
             }
-            musicPlaying = !musicPlaying;
         }
     </script>
 </body>
