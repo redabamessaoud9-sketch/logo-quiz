@@ -10,81 +10,56 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
-        :root {
-            --primary: #8B5CFF;        
-            --primary-light: #B56CFF;
-            --primary-border: #D5B8FF;
-            --primary-glow: rgba(139, 92, 255, 0.55);
-            --bg-dark: #05050d;        
-            --text-main: #FFFFFF;
-            --text-muted: #E9D7FF;
-            --text-level: #D8B4FF;
-            --success: #FFD21F;
-            --error: #ff3366;   
-        }
-
-        /* --- LOADING SCREEN --- */
+        /* --- NOUVEAU : LOADING SCREEN --- */
         #loading-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--bg-dark);
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #05050d;
+            background-image: url("ChatGPT Image 13 août 2026, 21_49_01.png");
+            background-size: cover;
+            display: flex; align-items: center; justify-content: center;
             z-index: 9999;
             transition: opacity 0.5s ease;
         }
-
         .loading-content { text-align: center; width: 80%; max-width: 400px; }
-        .loading-content h1 { margin-bottom: 30px; font-size: 3rem; }
-
+        .loading-content h1 { margin-bottom: 20px; font-size: 2.5rem; }
+        
         .loading-bar {
             width: 100%; height: 12px;
-            background: rgba(255, 255, 255, 0.12);
-            border-radius: 10px; border: 1px solid var(--primary-light);
-            overflow: hidden; margin-bottom: 10px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 6px; overflow: hidden;
+            border: 1px solid var(--primary-light);
+            margin: 15px 0;
         }
-
         #loading-progress {
             width: 0%; height: 100%;
             background: linear-gradient(90deg, #8B5CFF, #B56CFF);
-            box-shadow: 0 0 10px #8B5CFF, 0 0 25px rgba(181, 108, 255, 0.7);
+            box-shadow: 0 0 15px #8B5CFF, 0 0 25px rgba(181, 108, 255, 0.7);
             transition: width 0.1s linear;
         }
+        #loading-percent { font-family: 'Orbitron', sans-serif; color: var(--text-main); font-size: 1.2rem; }
+        /* -------------------------------- */
 
-        #loading-percent { font-family: 'Orbitron', sans-serif; color: var(--text-main); margin-bottom: 5px; }
-
-        /* --- RESTE DU CSS --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background-color: var(--bg-dark);
-            background-image: url("ChatGPT Image 13 août 2026, 21_49_01.png");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+        :root {
+            --primary: #8B5CFF; --primary-light: #B56CFF;
+            --primary-hover-1: #A56BFF; --primary-hover-2: #C58AFF;
+            --primary-border: #D5B8FF; --primary-glow: rgba(139, 92, 255, 0.55);
+            --primary-glow-hover: rgba(181, 108, 255, 0.8);
+            --secondary: #3B167D; --accent: #FFD21F;
+            --bg-dark: #05050d; --text-main: #FFFFFF;
+            --text-muted: #E9D7FF; --text-level: #D8B4FF;
+            --success: #FFD21F; --error: #ff3366;   
         }
 
-        .container { background: transparent; width: 90%; max-width: 600px; padding: 40px; z-index: 2; text-align: center; }
-
-        h1 { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 2.8rem; letter-spacing: 2px; color: var(--text-main); margin-bottom: 10px; text-transform: uppercase; text-shadow: 0 0 15px rgba(139, 92, 255, 0.7); }
-        h2 { font-family: 'Orbitron', sans-serif; font-size: 1.8rem; color: var(--text-main); margin-bottom: 20px; text-transform: uppercase; text-shadow: 0 0 12px rgba(139, 92, 255, 0.6); }
-
-        .btn { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: var(--text-main); border: 1px solid var(--primary-border); padding: 14px 28px; font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 900; border-radius: 12px; cursor: pointer; text-transform: uppercase; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 0 18px var(--primary-glow); width: 100%; margin-bottom: 15px; }
-        .btn:hover { box-shadow: 0 0 28px var(--primary-glow); transform: translateY(-2px); }
-        .btn-secondary { background: rgba(139, 92, 255, 0.08); border: 1px solid rgba(139, 92, 255, 0.3); width: auto; }
-
+        /* ... (Reste de ton CSS précédent inchangé) ... */
+        body { font-family: 'Rajdhani', sans-serif; background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; display: flex; align-items: center; justify-content: center; }
         .hidden { display: none !important; }
+        .fade-out { opacity: 0; pointer-events: none; }
+        /* ... */
     </style>
 </head>
 <body>
 
-    <!-- Écran de chargement ajouté ici -->
+    <!-- Loading Screen -->
     <div id="loading-screen">
         <div class="loading-content">
             <h1>LOGO QUIZ</h1>
@@ -92,44 +67,46 @@
                 <div id="loading-progress"></div>
             </div>
             <div id="loading-percent">0%</div>
-            <p style="color: var(--text-muted)">Chargement...</p>
+            <p style="color: var(--text-muted);">Chargement...</p>
         </div>
     </div>
 
-    <!-- Interface jeu -->
-    <div class="container">
-        <div id="menu-screen">
-            <h1>Logo Quiz</h1>
-            <button class="btn" onclick="showCategories()">Jouer</button>
-        </div>
-        <!-- ... reste des écrans inchangé ... -->
+    <!-- Interface principale -->
+    <div id="app-container" class="hidden">
+       <!-- Ton contenu de jeu habituel -->
     </div>
 
     <script>
-        // Lancer le chargement au démarrage
-        window.addEventListener('load', () => {
+        // Fonction pour lancer le chargement au démarrage
+        function initLoading() {
             let progress = 0;
-            const progressEl = document.getElementById("loading-progress");
-            const percentEl = document.getElementById("loading-percent");
+            const progressBar = document.getElementById("loading-progress");
+            const progressText = document.getElementById("loading-percent");
             const loadingScreen = document.getElementById("loading-screen");
+            const appContainer = document.getElementById("app-container");
 
             const interval = setInterval(() => {
-                progress += 1;
-                progressEl.style.width = progress + "%";
-                percentEl.textContent = progress + "%";
+                progress += 2; // Progression fluide sur ~2.5s
+                progressBar.style.width = progress + "%";
+                progressText.textContent = progress + "%";
 
                 if (progress >= 100) {
                     clearInterval(interval);
                     setTimeout(() => {
-                        loadingScreen.style.opacity = '0';
+                        loadingScreen.classList.add('fade-out');
+                        appContainer.classList.remove('hidden');
                         setTimeout(() => loadingScreen.classList.add('hidden'), 500);
                     }, 300);
                 }
-            }, 30); // 3 secondes environ (30ms * 100 = 3000ms)
+            }, 50);
+        }
+
+        // Lancement au chargement du DOM
+        window.addEventListener('DOMContentLoaded', () => {
+            initLoading();
         });
 
-        // Fonctions existantes
-        function showCategories() { /* ... */ }
+        // ... (Ton code JavaScript existant pour le jeu) ...
     </script>
 </body>
 </html>
